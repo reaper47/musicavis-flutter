@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'ui/ui.dart';
+import 'providers/theme.dart';
+import 'ui/routes/home/home.dart';
 import 'utils/constants.dart';
-
-final counterProvider = Provider((ref) => 0);
+import 'utils/themes.dart';
 
 void main() {
   runApp(ProviderScope(child: MusicavisApp()));
 }
 
-class MusicavisApp extends StatelessWidget {
-  const MusicavisApp({Key key}) : super(key: key);
-
+class MusicavisApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    final isDarkModeEnabled = useProvider(themeStateNotifier.state);
+
     return MaterialApp(
       title: APP_NAME,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
       home: const HomeRoute(),
       routes: {
         ROUTE_PRACTICE: (_) => HomeRoute(),

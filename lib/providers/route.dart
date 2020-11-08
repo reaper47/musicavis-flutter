@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../ui/ui.dart';
+import 'package:musicavis/ui/bottom_navigation.dart';
 
 final routeIndexProvider = StateProvider<int>((ref) => 0);
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../ui/ui.dart';
-import '../utils/constants.dart';
+import 'package:musicavis/utils/constants.dart';
+import 'routes/home/home.dart';
 
 final Map<RouteType, Route> routes = const {
   RouteType.home: Route(
