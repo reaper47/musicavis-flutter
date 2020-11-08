@@ -25,10 +25,7 @@ class HomeRoute extends HookWidget {
           Expanded(
             child: Row(
               children: [
-                Text('Light Mode',
-                    style: Theme.of(context).textTheme.bodyText2),
-                DarkModeSwitch(),
-                Text('Dark Mode', style: Theme.of(context).textTheme.bodyText2)
+                ThemeDropdown(),
               ],
             ),
           ),

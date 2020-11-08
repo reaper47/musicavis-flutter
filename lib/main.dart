@@ -16,13 +16,11 @@ void main() {
 class MusicavisApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final isDarkModeEnabled = useProvider(themeStateNotifier.state);
+    final theme = useProvider(themeStateNotifier.state);
 
     return MaterialApp(
       title: APP_NAME,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      themeMode: isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
+      theme: getTheme(theme),
       home: const HomeRoute(),
       routes: {
         ROUTE_PRACTICE: (_) => HomeRoute(),

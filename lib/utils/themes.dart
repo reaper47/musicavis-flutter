@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:musicavis/utils/constants.dart';
+
 class AppTheme {
   AppTheme._();
 
@@ -25,4 +27,17 @@ class AppTheme {
     ),
     scaffoldBackgroundColor: Colors.black,
   );
+}
+
+ThemeData getTheme(String name) {
+  switch (name) {
+    case BLACK_THEME_PREF:
+      return AppTheme.black;
+    case LIGHT_THEME_PREF:
+      return AppTheme.light;
+    case DARK_THEME_PREF:
+      return AppTheme.dark;
+    default:
+      return AppTheme.light;
+  }
 }
