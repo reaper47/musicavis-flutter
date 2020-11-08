@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 
+import 'package:musicavis/ui/routes/all.dart';
 import 'package:musicavis/utils/constants.dart';
-import 'routes/home/home.dart';
 
-final Map<RouteType, Route> routes = const {
-  RouteType.home: Route(
+final Map<RouteType, AppRoute> routes = const {
+  RouteType.home: AppRoute(
     RouteType.home,
     ROUTE_HOME_TITLE,
     Icons.home,
     HomeRoute(),
   ),
-  RouteType.practice: Route(
+  RouteType.practice: AppRoute(
     RouteType.practice,
     ROUTE_PRACTICE_TITLE,
     Icons.music_note,
-    HomeRoute(),
+    PracticeRoute(),
   ),
-  RouteType.calendar: Route(
+  RouteType.calendar: AppRoute(
     RouteType.calendar,
     ROUTE_CALENDAR_TITLE,
     Icons.calendar_today,
-    HomeRoute(),
+    CalendarRoute(),
   ),
-  RouteType.profile: Route(
+  RouteType.profile: AppRoute(
     RouteType.profile,
     ROUTE_PROFILE_TITLE,
     Icons.person,
-    HomeRoute(),
+    ProfileRoute(),
   ),
 };
 
@@ -37,11 +37,11 @@ enum RouteType {
   profile,
 }
 
-class Route {
+class AppRoute {
   final RouteType type;
   final String name;
   final IconData icon;
   final Widget screen;
 
-  const Route(this.type, this.name, this.icon, this.screen);
+  const AppRoute(this.type, this.name, this.icon, this.screen);
 }

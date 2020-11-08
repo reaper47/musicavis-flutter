@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:musicavis/providers/route.dart';
-import 'package:musicavis/ui/bottom_navigation.dart';
 import 'package:musicavis/ui/widgets/theme_switch.dart';
 
 class HomeRoute extends HookWidget {
@@ -12,35 +9,9 @@ class HomeRoute extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routeIndex = useProvider(routeIndexProvider).state;
-    final routeTitle = useProvider(routeTitleProvider);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(routeTitle),
-        elevation: 2.0,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                ThemeDropdown(),
-              ],
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: routeIndex,
-        onTap: (index) => context.read(routeIndexProvider).state = index,
-        type: BottomNavigationBarType.fixed,
-        items: routes.values
-            .map((e) => BottomNavigationBarItem(
-                  icon: Icon(e.icon),
-                  label: e.name,
-                ))
-            .toList(),
+    return Container(
+      child: Center(
+        child: ThemeDropdown(),
       ),
     );
   }

@@ -5,12 +5,15 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'providers/theme.dart';
-import 'ui/routes/home/home.dart';
+import 'ui/meta/meta.dart';
+import 'ui/routes/all.dart';
 import 'utils/constants.dart';
 import 'utils/themes.dart';
 
 void main() {
-  runApp(ProviderScope(child: MusicavisApp()));
+  runApp(ProviderScope(
+    child: MusicavisApp(),
+  ));
 }
 
 class MusicavisApp extends HookWidget {
@@ -21,11 +24,12 @@ class MusicavisApp extends HookWidget {
     return MaterialApp(
       title: APP_NAME,
       theme: getTheme(theme),
-      home: const HomeRoute(),
+      home: const MetaRoute(),
       routes: {
-        ROUTE_PRACTICE: (_) => HomeRoute(),
-        ROUTE_CALENDAR: (_) => HomeRoute(),
-        ROUTE_PROFILE: (_) => HomeRoute(),
+        ROUTE_HOME: (_) => HomeRoute(),
+        ROUTE_PRACTICE: (_) => PracticeRoute(),
+        ROUTE_CALENDAR: (_) => CalendarRoute(),
+        ROUTE_PROFILE: (_) => ProfileRoute(),
       },
     );
   }
