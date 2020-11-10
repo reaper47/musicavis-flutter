@@ -6,7 +6,9 @@ class PracticeRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('practice'),
+      child: Center(
+        child: Text('Practice'),
+      ),
     );
   }
 }

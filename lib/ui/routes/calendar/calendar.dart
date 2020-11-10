@@ -6,7 +6,9 @@ class CalendarRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('calendar'),
+      child: Center(
+        child: Text('Calendar'),
+      ),
     );
   }
 }

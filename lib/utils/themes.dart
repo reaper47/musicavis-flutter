@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:musicavis/utils/constants.dart';
 
+final themesList = [LIGHT_THEME_PREF, DARK_THEME_PREF, BLACK_THEME_PREF];
+
 class AppTheme {
   AppTheme._();
 

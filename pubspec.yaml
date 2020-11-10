@@ -1,5 +1,5 @@
 name: musicavis
-description: A new Flutter project.
+description: Become more efficient with your music practice sessions.
 version: 1.0.0+1
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -12,6 +12,9 @@ dependencies:
     sdk: flutter
   flutter_riverpod: ^0.12.1
   hooks_riverpod: ^0.12.1
+  launch_review: ^2.0.0
+  preferences: ^5.2.1
+  url_launcher: ^5.7.10
 
 dev_dependencies:
   flutter_test:

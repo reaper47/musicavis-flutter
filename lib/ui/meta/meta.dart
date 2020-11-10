@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:musicavis/providers/route.dart';
+import 'package:musicavis/utils/constants.dart';
 import 'bottom_navigation.dart';
 import 'route_wrapper.dart';
 
@@ -18,6 +19,7 @@ class MetaRoute extends HookWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(routeTitle),
+        actions: _getActions(context, routeTitle),
       ),
       body: IndexedStack(
         index: routeIndex,
@@ -47,5 +49,24 @@ class MetaRoute extends HookWidget {
             .toList(),
       ),
     );
+  }
+
+  List<Widget> _getActions(BuildContext context, String title) {
+    switch (title) {
+      case ROUTE_PROFILE_TITLE:
+        return [
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () =>
+                Navigator.of(context).pushNamed(ROUTE_PROFILE_SETTINGS),
+            tooltip: 'Settings',
+          )
+        ];
+      case ROUTE_HOME_TITLE:
+      case ROUTE_PRACTICE_TITLE:
+      case ROUTE_CALENDAR_TITLE:
+      default:
+        return [];
+    }
   }
 }
