@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.musicavis.app">
+    package="com.musicavis.app.musicavis">
    <application
         android:label="musicavis"
         android:icon="@mipmap/ic_launcher">

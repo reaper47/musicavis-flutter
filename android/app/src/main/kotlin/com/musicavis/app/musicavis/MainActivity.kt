@@ -1,4 +1,4 @@
-package com.example.musicavis
+package com.musicavis.app.musicavis
 
 import io.flutter.embedding.android.FlutterActivity
 
