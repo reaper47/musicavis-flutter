@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:musicavis/utils/constants.dart';
+const BLACK_THEME_PREF = 'Black';
+const DARK_THEME_PREF = 'Dark';
+const LIGHT_THEME_PREF = 'Light';
 
 final themesList = [LIGHT_THEME_PREF, DARK_THEME_PREF, BLACK_THEME_PREF];
 

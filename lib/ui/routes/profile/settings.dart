@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:launch_review/launch_review.dart';
-import 'package:preferences/preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:musicavis/providers/theme.dart';
+import 'package:musicavis/repository/boxes.dart';
+import 'package:musicavis/ui/widgets/all.dart';
 import 'package:musicavis/utils/constants.dart';
 import 'package:musicavis/utils/themes.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ProfileSettingsRoute extends HookWidget {
   @override
@@ -17,80 +19,97 @@ class ProfileSettingsRoute extends HookWidget {
       appBar: AppBar(
         title: Text(ROUTE_PROFILE_SETTINGS_TITLE),
       ),
-      body: PreferencePage([
-        PreferenceTitle('Personalization'),
-        DropdownPreference(
-          'Appearance',
-          THEME_PREF,
-          onChange: (name) => context.read(themeStateNotifier).setTheme(name),
-          defaultVal: DARK_THEME_PREF,
-          values: themesList,
-          desc: 'Choose your preferred theme.',
-        ),
-        PreferenceTitle('Practice'),
-        /*InstrumentsTile(),
-        BpmRangeTile(),
-        PreferenceDialogLink(
-          'Minutes Max',
-          desc: 'Set the upper bound for the number of minutes.',
-          dialog: PreferenceDialog(
-            [
-              TextFieldPreference(
-                '',
-                EXERCISE_MINUTES_MAX_PREF,
-                padding: const EdgeInsets.only(top: 8.0),
-                autofocus: true,
-                keyboardType: TextInputType.number,
-                defaultVal: '',
-                hintText:
-                    'Default is ${PrefService.getString(EXERCISE_MINUTES_MAX_PREF)}',
-                validator: (String str) {
-                  try {
-                    if (int.parse(str) <= 0) {
-                      return 'Number must be greater than 1';
-                    }
-                  } catch (e) {
-                    return 'Please specify a number.';
-                  }
-                  return null;
-                },
-              ),
-            ],
-            title: 'Number of minutes',
-            cancelText: 'Cancel',
-            submitText: 'Save',
-            onlySaveOnSubmit: true,
+      body: ListView(
+        children: [
+          SectionTitle('Personalization'),
+          DropdownTile(
+            'Appearance',
+            subtitle: 'Choose your preferred theme.',
+            defaultValue: DARK_THEME_PREF,
+            values: themesList,
+            boxName: SETTINGS_BOX,
+            settingKey: SETTINGS_THEME_KEY,
+            onChange: (name) => context.read(themeStateNotifier).setTheme(name),
           ),
-          trailing: Icon(Icons.chevron_right),
-          onPop: () => setState(() {}),
-        ),*/
-        PreferenceTitle('Notifications'),
-        SwitchPreference(
-          'Daily practice reminder',
-          'notification_practice_reminder',
-          defaultVal: true,
-          desc: 'Do you want to get reminded to play every day?',
+          SectionTitle('Practice'),
+          InstrumentsTile(),
+          BpmRangeTile(),
+          DialogLink(
+            'Minutes Max',
+            subtitle: 'Set the upper bound for the number of minutes.',
+            isBarrierDismissible: false,
+            dialog: _numMinutesDialog(context),
+          ),
+          SectionTitle('Notifications'),
+          SwitchTile(
+            'Daily practice reminder',
+            subtitle: 'Do you want to get reminded to play every day?',
+            defaultValue: true,
+            boxName: SETTINGS_BOX,
+            settingKey: SETTINGS_NOTIFICATIONS_KEY,
+          ),
+          SectionTitle('Miscellaneous'),
+          ListTile(
+            title: Text('Enjoying the app?'),
+            subtitle: Text('Leave us a review in the store.'),
+            trailing: Icon(Icons.chevron_right),
+            onTap: _redirectToStore,
+          ),
+          ListTile(
+            title: Text('Send us an email'),
+            subtitle: Text('Request features, report bugs or say hello.'),
+            trailing: Icon(Icons.chevron_right),
+            onTap: _sendEmail,
+          ),
+          ListTile(
+            title: Text('About this software'),
+            subtitle: Text('View the app version and legal information.'),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () => _showAboutDialog(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _numMinutesDialog(BuildContext context) {
+    final controller = TextEditingController(
+      text: Hive.box(SETTINGS_BOX).get(SETTINGS_MINUTES_MAX_KEY).toString(),
+    );
+
+    return AlertDialog(
+      title: Text('Number of Minutes'),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: [
+            Text('Set the upper bound for the number of minutes.'),
+            SimpleTextField(
+              type: TextInputType.number,
+              controller: controller,
+            ),
+          ],
         ),
-        PreferenceTitle('Miscellaneous'),
-        ListTile(
-          title: Text('Enjoying the app?'),
-          subtitle: Text('Leave us a review in the store.'),
-          trailing: Icon(Icons.chevron_right),
-          onTap: _redirectToStore,
+      ),
+      actions: [
+        RaisedButton(
+          child: Text('Cancel'),
+          color: Colors.redAccent,
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        ListTile(
-          title: Text('Send us an email'),
-          subtitle: Text('Request features, report bugs or say hello.'),
-          trailing: Icon(Icons.chevron_right),
-          onTap: _sendEmail,
+        RaisedButton(
+          child: Text('Save'),
+          color: Colors.blueAccent,
+          onPressed: () {
+            var numMinutes = int.parse(controller.text);
+            if (numMinutes <= 0) {
+              numMinutes = 1;
+              controller.text = '1';
+            }
+            Hive.box(SETTINGS_BOX).put(SETTINGS_MINUTES_MAX_KEY, numMinutes);
+            Navigator.of(context).pop();
+          },
         ),
-        ListTile(
-          title: Text('About this software'),
-          subtitle: Text('View the app version and legal information.'),
-          trailing: Icon(Icons.chevron_right),
-          onTap: () => _showAboutDialog(context),
-        ),
-      ]),
+      ],
     );
   }
 
