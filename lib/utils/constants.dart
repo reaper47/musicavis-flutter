@@ -14,9 +14,10 @@ const ROUTE_CALENDAR_TITLE = 'Calendar';
 const ROUTE_PROFILE_TITLE = 'Profile';
 const ROUTE_PROFILE_SETTINGS_TITLE = 'Settings';
 
-const SETTINGS_INITIALIZED = 'box_init';
 const SETTINGS_THEME_KEY = 'theme';
 const SETTINGS_NOTIFICATIONS_KEY = 'send_notifications';
 const SETTINGS_BPM_MIN_KEY = 'bpm_min';
 const SETTINGS_BPM_MAX_KEY = 'bpm_max';
 const SETTINGS_MINUTES_MAX_KEY = 'minutes_max';
+
+const FILE_INSTRUMENTS = 'instruments.txt';
