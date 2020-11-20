@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import 'package:musicavis/repository/boxes.dart';
+import 'package:musicavis/ui/widgets/buttons.dart';
 import 'package:musicavis/utils/constants.dart';
 
 class BpmRangeTile extends StatelessWidget {
@@ -70,23 +71,13 @@ class _BpmRangeDialogState extends State<BpmRangeDialog> {
         ],
       ),
       scrollable: true,
-      actions: [
-        RaisedButton(
-          color: Colors.redAccent,
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text('Cancel'),
-        ),
-        RaisedButton(
-          onPressed: () {
-            _setBpm(
-              _currentRangeValues.start.round(),
-              _currentRangeValues.end.round(),
-            );
-            Navigator.of(context).pop();
-          },
-          child: Text('Save'),
-        ),
-      ],
+      actions: cancelSaveButtons(context, () {
+        _setBpm(
+          _currentRangeValues.start.round(),
+          _currentRangeValues.end.round(),
+        );
+        Navigator.of(context).pop();
+      }),
     );
   }
 

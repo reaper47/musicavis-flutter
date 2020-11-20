@@ -90,26 +90,15 @@ class ProfileSettingsRoute extends HookWidget {
           ],
         ),
       ),
-      actions: [
-        RaisedButton(
-          child: Text('Cancel'),
-          color: Colors.redAccent,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        RaisedButton(
-          child: Text('Save'),
-          color: Colors.blueAccent,
-          onPressed: () {
-            var numMinutes = int.parse(controller.text);
-            if (numMinutes <= 0) {
-              numMinutes = 1;
-              controller.text = '1';
-            }
-            Hive.box(SETTINGS_BOX).put(SETTINGS_MINUTES_MAX_KEY, numMinutes);
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
+      actions: cancelSaveButtons(context, () {
+        var numMinutes = int.parse(controller.text);
+        if (numMinutes <= 0) {
+          numMinutes = 1;
+          controller.text = '1';
+        }
+        Hive.box(SETTINGS_BOX).put(SETTINGS_MINUTES_MAX_KEY, numMinutes);
+        Navigator.of(context).pop();
+      }),
     );
   }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/all.dart';
+import 'package:musicavis/providers/repository.dart';
 import 'package:musicavis/ui/widgets/dialogs.dart';
 
 class InstrumentListRoute extends HookWidget {
@@ -8,8 +10,11 @@ class InstrumentListRoute extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final instruments = useProvider(instrumentsProvider);
+
     return Scaffold(
       appBar: AppBar(
+        title: Text('Select Instruments'),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -26,8 +31,13 @@ class InstrumentListRoute extends HookWidget {
           )
         ],
       ),
-      body: Container(
-        child: Text('hello'),
+      body: GridView.count(
+        crossAxisCount: 3,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 10,
+        childAspectRatio: 2.4,
+        padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 43),
+        children: [for (var instrument in instruments.values) Text(instrument)],
       ),
     );
   }
