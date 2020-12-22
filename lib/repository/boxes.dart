@@ -56,6 +56,7 @@ void _initSettings() {
     box.put(SETTINGS_BPM_MIN_KEY, 30);
     box.put(SETTINGS_BPM_MAX_KEY, 300);
     box.put(SETTINGS_MINUTES_MAX_KEY, 5);
+    box.put(SETTINGS_INSTRUMENTS_SELECTED_KEY, []);
   }
 }
 

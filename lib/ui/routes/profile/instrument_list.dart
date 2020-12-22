@@ -10,7 +10,7 @@ class InstrumentListRoute extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final instruments = useProvider(instrumentsProvider);
+    final instruments = useProvider(instrumentStateNotifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +37,15 @@ class InstrumentListRoute extends HookWidget {
         mainAxisSpacing: 10,
         childAspectRatio: 2.4,
         padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 43),
-        children: [for (var instrument in instruments.values) Text(instrument)],
+        children: [
+          for (var instrument in instruments)
+            Text(
+              instrument.name,
+              style: TextStyle(
+                color: instrument.isSelected ? Colors.red : Colors.white,
+              ),
+            )
+        ],
       ),
     );
   }

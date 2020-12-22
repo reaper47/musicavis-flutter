@@ -19,5 +19,6 @@ const SETTINGS_NOTIFICATIONS_KEY = 'send_notifications';
 const SETTINGS_BPM_MIN_KEY = 'bpm_min';
 const SETTINGS_BPM_MAX_KEY = 'bpm_max';
 const SETTINGS_MINUTES_MAX_KEY = 'minutes_max';
+const SETTINGS_INSTRUMENTS_SELECTED_KEY = 'instruments_selected';
 
 const FILE_INSTRUMENTS = 'instruments.txt';

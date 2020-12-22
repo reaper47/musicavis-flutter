@@ -37,6 +37,7 @@ class ProfileSettingsRoute extends HookWidget {
           DialogLink(
             'Minutes Max',
             subtitle: 'Set the upper bound for the number of minutes.',
+            trailing: Icon(Icons.chevron_right),
             isBarrierDismissible: false,
             dialog: _numMinutesDialog(context),
           ),
