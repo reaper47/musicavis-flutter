@@ -36,9 +36,10 @@ class InstrumentList extends StateNotifier<List<InstrumentItem>> {
         ...state,
         InstrumentItem(
           id: state.length + 1,
-          name: name.capitalize(),
+          name: name.toTitleCase(),
         )
       ];
+      state.sort((a, b) => a.name.compareTo(b.name));
     }
   }
 
@@ -76,6 +77,6 @@ class InstrumentItem {
   bool isSelected;
 
   InstrumentItem({this.id, String name, this.isSelected = false}) {
-    this.name = name.capitalize();
+    this.name = name.toTitleCase();
   }
 }
