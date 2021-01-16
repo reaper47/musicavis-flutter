@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:musicavis/providers/settings.dart';
 import 'package:musicavis/providers/theme.dart';
 import 'package:musicavis/repository/boxes.dart';
 import 'package:musicavis/ui/widgets/all.dart';
@@ -74,8 +74,9 @@ class ProfileSettingsRoute extends HookWidget {
   }
 
   Widget _numMinutesDialog(BuildContext context) {
+    final settingsProvider = useProvider(settingsStateNotifier);
     final controller = TextEditingController(
-      text: Hive.box(SETTINGS_BOX).get(SETTINGS_MINUTES_MAX_KEY).toString(),
+      text: settingsProvider.getMinutesMax(),
     );
 
     return AlertDialog(
@@ -97,7 +98,7 @@ class ProfileSettingsRoute extends HookWidget {
           numMinutes = 1;
           controller.text = '1';
         }
-        Hive.box(SETTINGS_BOX).put(SETTINGS_MINUTES_MAX_KEY, numMinutes);
+        settingsProvider.updateMinutesMax(numMinutes);
         Navigator.of(context).pop();
       }),
     );

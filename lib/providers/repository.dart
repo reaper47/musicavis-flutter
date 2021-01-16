@@ -31,14 +31,9 @@ class InstrumentList extends StateNotifier<List<InstrumentItem>> {
 
   void add(String name) {
     if (_instrumentsBox.get(name.toLowerCase()) == null) {
-      _instrumentsBox.add(name.toLowerCase());
-      state = [
-        ...state,
-        InstrumentItem(
-          id: state.length + 1,
-          name: name.toTitleCase(),
-        )
-      ];
+      final id = state.length + 1;
+      _instrumentsBox.put(id, name.toLowerCase());
+      state = [...state, InstrumentItem(id: id, name: name.toTitleCase())];
       state.sort((a, b) => a.name.compareTo(b.name));
     }
   }
@@ -79,4 +74,8 @@ class InstrumentItem {
   InstrumentItem({this.id, String name, this.isSelected = false}) {
     this.name = name.toTitleCase();
   }
+
+  @override
+  String toString() =>
+      'InstrumentItem { id: $id, name: $name, isSelected: $isSelected }';
 }
