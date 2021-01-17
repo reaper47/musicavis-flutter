@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
-
-import 'package:musicavis/utils/practice.dart';
+import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 
 part 'practice.g.dart';
 
@@ -44,33 +43,34 @@ class Practice extends HiveObject {
   List<String> get positiveList => positives ?? [''];
   List<String> get improvementList => improvements ?? [''];
 
-  void update(ComponentType type, int index, String value) {
+  void update(TabType type, int index, String value) {
     switch (type) {
-      case ComponentType.goals:
+      case TabType.goal:
         goals[index] = value;
         break;
-      case ComponentType.improvements:
+      case TabType.improvement:
         improvements[index] = value;
         break;
-      case ComponentType.positives:
+      case TabType.positive:
         positives[index] = value;
+        break;
+      case TabType.notes:
+        notes = value;
         break;
       default:
         break;
     }
   }
 
-  void setNotes(String newNotes) => notes = newNotes;
-
-  void add(String item, ComponentType type) {
+  void add(String item, TabType type) {
     switch (type) {
-      case ComponentType.goals:
+      case TabType.goal:
         _addItem(item, goals);
         break;
-      case ComponentType.improvements:
+      case TabType.improvement:
         _addItem(item, improvements);
         break;
-      case ComponentType.positives:
+      case TabType.positive:
         _addItem(item, positives);
         break;
       default:
@@ -87,15 +87,15 @@ class Practice extends HiveObject {
     }
   }
 
-  void deleteItem(int index, ComponentType type) {
+  void deleteItem(int index, TabType type) {
     switch (type) {
-      case ComponentType.goals:
+      case TabType.goal:
         _deleteItem(index, goals);
         break;
-      case ComponentType.improvements:
+      case TabType.improvement:
         _deleteItem(index, improvements);
         break;
-      case ComponentType.positives:
+      case TabType.positive:
         _deleteItem(index, positives);
         break;
       default:

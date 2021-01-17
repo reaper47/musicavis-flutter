@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 
 import 'package:musicavis/repository/boxes.dart';
 import 'package:musicavis/repository/models/practice.dart';
-import 'package:musicavis/utils/practice.dart';
+import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 
 final practiceStateNotifier = StateNotifierProvider((_) => PracticeProvider());
 
@@ -29,38 +29,23 @@ class PracticeProvider extends StateNotifier<Practice> {
     //
   }
 
-  void addItem(ComponentType type) => state.add('', type);
+  void addItem(TabType type) => state.add('', type);
 
-  void updateItem(ComponentType type, int index, String value) =>
+  void updateItem(TabType type, int index, String value) =>
       state.update(type, index, value);
-  void updateNotes(String notes) => state.setNotes(notes);
 
-  void deleteItem(ComponentType type, int index) =>
-      state.deleteItem(index, type);
+  void deleteItem(TabType type, int index) => state.deleteItem(index, type);
 
-  List<String> getItems(ComponentType componentType) {
-    switch (componentType) {
-      case ComponentType.goals:
+  List<String> getItems(TabType type) {
+    switch (type) {
+      case TabType.goal:
         return state.goals;
-      case ComponentType.improvements:
+      case TabType.improvement:
         return state.improvements;
-      case ComponentType.positives:
+      case TabType.positive:
         return state.positives;
       default:
         return [];
     }
-  }
-}
-
-String getPlaceholderText(ComponentType type) {
-  switch (type) {
-    case ComponentType.goals:
-      return "Today's practice goal...";
-    case ComponentType.positives:
-      return 'What went great?';
-    case ComponentType.improvements:
-      return 'What is to improve?';
-    default:
-      return 'Additional notes on the practice...';
   }
 }

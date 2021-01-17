@@ -58,7 +58,7 @@ class PracticeDetailsRoute extends HookWidget {
               case TabType.goal:
                 return ListTab(
                   CrudOperations(
-                    ComponentType.goals,
+                    TabType.goal,
                     add: practiceState.addItem,
                     delete: practiceState.deleteItem,
                     update: practiceState.updateItem,
@@ -72,7 +72,7 @@ class PracticeDetailsRoute extends HookWidget {
               case TabType.improvement:
                 return ListTab(
                   CrudOperations(
-                    ComponentType.improvements,
+                    TabType.improvement,
                     add: practiceState.addItem,
                     delete: practiceState.deleteItem,
                     update: practiceState.updateItem,
@@ -81,7 +81,7 @@ class PracticeDetailsRoute extends HookWidget {
               case TabType.positive:
                 return ListTab(
                   CrudOperations(
-                    ComponentType.positives,
+                    TabType.positive,
                     add: practiceState.addItem,
                     delete: practiceState.deleteItem,
                     update: practiceState.updateItem,

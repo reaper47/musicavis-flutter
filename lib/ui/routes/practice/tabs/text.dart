@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
+
 import 'package:musicavis/providers/practice.dart';
+import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 
 class TextTab extends HookWidget {
   @override
@@ -19,7 +21,9 @@ class TextTab extends HookWidget {
           autofocus: false,
           autocorrect: true,
           decoration: InputDecoration(hintText: 'Notes on the practice...'),
-          onChanged: (x) => context.read(practiceStateNotifier).updateNotes(x),
+          onChanged: (x) => context
+              .read(practiceStateNotifier)
+              .updateItem(TabType.notes, -1, x),
         ),
       ),
     );

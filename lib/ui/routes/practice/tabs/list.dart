@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 
 import 'package:musicavis/providers/practice.dart';
+import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 import 'package:musicavis/utils/colors.dart';
 import 'package:musicavis/utils/practice.dart';
 
@@ -18,13 +19,13 @@ class ListTab extends StatefulHookWidget {
 }
 
 class _ListTabState extends State<ListTab> {
-  ComponentType type;
+  TabType type;
   String placeholderText;
 
   @override
   void initState() {
     type = widget.crud.type;
-    placeholderText = getPlaceholderText(widget.crud.type);
+    placeholderText = captionTabType(widget.crud.type);
     super.initState();
   }
 
