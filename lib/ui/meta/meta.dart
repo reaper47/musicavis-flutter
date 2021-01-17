@@ -62,9 +62,6 @@ class MetaRoute extends HookWidget {
             tooltip: 'Settings',
           )
         ];
-      case ROUTE_HOME_TITLE:
-      case ROUTE_PRACTICE_TITLE:
-      case ROUTE_CALENDAR_TITLE:
       default:
         return [];
     }

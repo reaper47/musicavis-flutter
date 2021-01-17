@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 
-import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/providers/repository.dart';
+import 'package:musicavis/providers/selectedInstrument.dart';
 import 'package:musicavis/providers/theme.dart';
 import 'package:musicavis/ui/widgets/dialogs.dart';
 

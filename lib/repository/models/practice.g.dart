@@ -23,13 +23,14 @@ class PracticeAdapter extends TypeAdapter<Practice> {
       positives: (fields[3] as List)?.cast<String>(),
       improvements: (fields[4] as List)?.cast<String>(),
       notes: fields[5] as String,
+      datetime: fields[6] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, Practice obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.instrument)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class PracticeAdapter extends TypeAdapter<Practice> {
       ..writeByte(4)
       ..write(obj.improvements)
       ..writeByte(5)
-      ..write(obj.notes);
+      ..write(obj.notes)
+      ..writeByte(6)
+      ..write(obj.datetime);
   }
 
   @override

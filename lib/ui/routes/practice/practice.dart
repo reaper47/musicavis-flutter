@@ -5,8 +5,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/all.dart';
 
 import 'package:musicavis/providers/practice.dart';
+import 'package:musicavis/providers/selectedInstrument.dart';
 import 'package:musicavis/providers/settings.dart';
 import 'package:musicavis/providers/theme.dart';
+import 'package:musicavis/ui/routes/all.dart';
 
 class PracticeRoute extends HookWidget {
   const PracticeRoute({Key key}) : super(key: key);
@@ -48,7 +50,7 @@ class ShadowContainer extends StatelessWidget {
   }
 }
 
-class InstrumentSelectionCard extends StatelessWidget {
+class InstrumentSelectionCard extends HookWidget {
   const InstrumentSelectionCard({Key key}) : super(key: key);
 
   @override
@@ -90,7 +92,7 @@ class InstrumentSelectionCard extends StatelessWidget {
                   buttonMinWidth: 120,
                   children: [
                     RaisedButton(
-                      onPressed: () => print('start'),
+                      onPressed: () => _createPractice(context),
                       child: Text('Start'),
                     )
                   ],
@@ -100,6 +102,15 @@ class InstrumentSelectionCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _createPractice(BuildContext context) {
+    final instrument =
+        context.read(selectedInstrumentsStateNotifier).getSelectedInstrument();
+    context.read(practiceStateNotifier).create(instrument);
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => PracticeDetailsRoute()),
     );
   }
 }
