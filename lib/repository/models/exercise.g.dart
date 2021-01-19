@@ -16,11 +16,12 @@ class ExerciseAdapter extends TypeAdapter<Exercise> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Exercise()
-      ..name = fields[0] as String
-      ..bpmStart = fields[1] as int
-      ..bpmEnd = fields[2] as int
-      ..minutes = fields[3] as int;
+    return Exercise(
+      fields[0] as String,
+      fields[1] as int,
+      fields[2] as int,
+      fields[3] as int,
+    );
   }
 
   @override

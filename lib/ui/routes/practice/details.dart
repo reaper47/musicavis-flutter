@@ -7,7 +7,6 @@ import 'package:hooks_riverpod/all.dart';
 
 import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
-import 'package:musicavis/utils/practice.dart';
 
 enum PopOptions {
   Save,
@@ -20,7 +19,7 @@ class PracticeDetailsRoute extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final practice = useProvider(practiceStateNotifier.state);
-    final practiceState = useProvider(practiceStateNotifier);
+    final crud = useProvider(practiceStateNotifier).crud;
 
     return DefaultTabController(
       length: tabs.length,
@@ -56,37 +55,13 @@ class PracticeDetailsRoute extends HookWidget {
           children: tabs.map((x) {
             switch (x.tabType) {
               case TabType.goal:
-                return ListTab(
-                  CrudOperations(
-                    TabType.goal,
-                    add: practiceState.addItem,
-                    delete: practiceState.deleteItem,
-                    update: practiceState.updateItem,
-                  ),
-                );
+                return ListTab(x.tabType, practice.goals, crud);
               case TabType.exercise:
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(x.toString()),
-                );
+                return ExerciseTab(practice.exercises, crud);
               case TabType.improvement:
-                return ListTab(
-                  CrudOperations(
-                    TabType.improvement,
-                    add: practiceState.addItem,
-                    delete: practiceState.deleteItem,
-                    update: practiceState.updateItem,
-                  ),
-                );
+                return ListTab(x.tabType, practice.improvements, crud);
               case TabType.positive:
-                return ListTab(
-                  CrudOperations(
-                    TabType.positive,
-                    add: practiceState.addItem,
-                    delete: practiceState.deleteItem,
-                    update: practiceState.updateItem,
-                  ),
-                );
+                return ListTab(x.tabType, practice.positives, crud);
               default:
                 return Padding(
                   padding: const EdgeInsets.all(20.0),

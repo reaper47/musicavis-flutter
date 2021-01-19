@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SimpleSlider extends StatefulWidget {
-  final int min;
-  final int current;
-  final int max;
+  final Values values;
 
-  SimpleSlider(this.min, this.current, this.max);
+  const SimpleSlider(this.values);
 
   @override
   _SimpleSliderState createState() => _SimpleSliderState();
@@ -16,7 +14,7 @@ class _SimpleSliderState extends State<SimpleSlider> {
 
   @override
   void initState() {
-    _current = widget.current.toDouble();
+    _current = widget.values.current.toDouble();
     super.initState();
   }
 
@@ -24,11 +22,19 @@ class _SimpleSliderState extends State<SimpleSlider> {
   Widget build(BuildContext context) {
     return Slider(
       value: _current,
-      min: widget.min.toDouble(),
-      max: widget.max.toDouble(),
-      divisions: widget.max - widget.min,
+      min: widget.values.min.toDouble(),
+      max: widget.values.max.toDouble(),
+      divisions: widget.values.max - widget.values.min,
       label: _current.round().toString(),
       onChanged: (value) => setState(() => _current = value),
     );
   }
+}
+
+class Values {
+  final int min;
+  final int current;
+  final int max;
+
+  const Values(this.min, this.current, this.max);
 }

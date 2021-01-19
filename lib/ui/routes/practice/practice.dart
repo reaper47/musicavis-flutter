@@ -110,7 +110,7 @@ class InstrumentSelectionCard extends HookWidget {
         context.read(selectedInstrumentsStateNotifier).getSelectedInstrument();
     context.read(practiceStateNotifier).create(instrument);
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => PracticeDetailsRoute()),
+      MaterialPageRoute(builder: (_) => const PracticeDetailsRoute()),
     );
   }
 }

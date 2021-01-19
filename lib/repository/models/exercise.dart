@@ -15,4 +15,10 @@ class Exercise extends HiveObject {
 
   @HiveField(3)
   int minutes;
+
+  Exercise(this.name, this.bpmStart, this.bpmEnd, this.minutes);
+
+  @override
+  String toString() =>
+      'Exercise { name: $name, bpm: [$bpmStart, $bpmEnd], minutes: $minutes }';
 }

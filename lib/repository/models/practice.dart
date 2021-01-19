@@ -1,6 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+
+import 'package:musicavis/repository/boxes.dart';
+import 'package:musicavis/repository/models/exercise.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
+import 'package:musicavis/utils/constants.dart';
 
 part 'practice.g.dart';
 
@@ -13,7 +17,7 @@ class Practice extends HiveObject {
   List<String> goals;
 
   @HiveField(2)
-  HiveList exercises;
+  HiveList<Exercise> exercises;
 
   @HiveField(3)
   List<String> positives;
@@ -37,16 +41,34 @@ class Practice extends HiveObject {
     this.datetime,
   });
 
-  String get title => '$instrument - ${DateFormat('yMMMd').format(datetime)}';
+  Practice.create(String instrument) {
+    this.instrument = instrument;
+    goals = [''];
 
-  List<String> get goalList => goals ?? [''];
-  List<String> get positiveList => positives ?? [''];
-  List<String> get improvementList => improvements ?? [''];
+    final settingsBox = Hive.box(SETTINGS_BOX);
+    exercises = HiveList(Hive.box<Exercise>(EXERCISES_BOX), objects: [
+      addExercise(
+        '',
+        settingsBox.get(SETTINGS_BPM_MIN_KEY),
+        settingsBox.get(SETTINGS_BPM_MIN_KEY),
+        settingsBox.get(SETTINGS_MINUTES_MAX_KEY),
+      )
+    ]);
+
+    positives = [''];
+    improvements = [''];
+    datetime = DateTime.now();
+  }
+
+  String get title => '$instrument - ${DateFormat('yMMMd').format(datetime)}';
 
   void update(TabType type, int index, String value) {
     switch (type) {
       case TabType.goal:
         goals[index] = value;
+        break;
+      case TabType.exercise:
+        print('update exercise');
         break;
       case TabType.improvement:
         improvements[index] = value;
@@ -66,6 +88,9 @@ class Practice extends HiveObject {
     switch (type) {
       case TabType.goal:
         _addItem(item, goals);
+        break;
+      case TabType.exercise:
+        print('add exercise');
         break;
       case TabType.improvement:
         _addItem(item, improvements);
@@ -87,10 +112,26 @@ class Practice extends HiveObject {
     }
   }
 
+  Exercise addExercise(String name, int bpmStart, int bpmEnd, int minutes) {
+    final box = Hive.box<Exercise>(EXERCISES_BOX);
+    final exercise = Exercise(name, bpmStart, bpmEnd, minutes);
+    final exerciseInBox = box.values.where((el) => el == exercise);
+
+    if (exerciseInBox.isEmpty) {
+      box.add(exercise);
+      exercise.save();
+      return exercise;
+    }
+    return exerciseInBox.first;
+  }
+
   void deleteItem(int index, TabType type) {
     switch (type) {
       case TabType.goal:
         _deleteItem(index, goals);
+        break;
+      case TabType.exercise:
+        print('delete exercise');
         break;
       case TabType.improvement:
         _deleteItem(index, improvements);

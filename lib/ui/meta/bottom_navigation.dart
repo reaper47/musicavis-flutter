@@ -14,19 +14,19 @@ final Map<RouteType, AppRoute> routes = const {
     RouteType.practice,
     ROUTE_PRACTICE_TITLE,
     Icons.music_note,
-    PracticeRoute(),
+    const PracticeRoute(),
   ),
   RouteType.calendar: AppRoute(
     RouteType.calendar,
     ROUTE_CALENDAR_TITLE,
     Icons.calendar_today,
-    CalendarRoute(),
+    const CalendarRoute(),
   ),
   RouteType.profile: AppRoute(
     RouteType.profile,
     ROUTE_PROFILE_TITLE,
     Icons.person,
-    ProfileRoute(),
+    const ProfileRoute(),
   ),
 };
 

@@ -5,7 +5,7 @@ class SectionTitle extends StatelessWidget {
   final double leftPadding;
   final TextStyle style;
 
-  SectionTitle(this.title, {this.leftPadding = 10.0, this.style});
+  const SectionTitle(this.title, {this.leftPadding = 10.0, this.style});
 
   @override
   Widget build(BuildContext context) {

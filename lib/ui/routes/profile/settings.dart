@@ -21,7 +21,7 @@ class ProfileSettingsRoute extends HookWidget {
       ),
       body: ListView(
         children: [
-          SectionTitle('Personalization'),
+          const SectionTitle('Personalization'),
           DropdownTile(
             'Appearance',
             subtitle: 'Choose your preferred theme.',
@@ -31,7 +31,7 @@ class ProfileSettingsRoute extends HookWidget {
             settingKey: SETTINGS_THEME_KEY,
             onChange: (name) => context.read(themeStateNotifier).setTheme(name),
           ),
-          SectionTitle('Practice'),
+          const SectionTitle('Practice'),
           InstrumentsTile(),
           BpmRangeTile(),
           DialogLink(
@@ -41,7 +41,7 @@ class ProfileSettingsRoute extends HookWidget {
             isBarrierDismissible: false,
             dialog: _numMinutesDialog(context),
           ),
-          SectionTitle('Notifications'),
+          const SectionTitle('Notifications'),
           SwitchTile(
             'Daily practice reminder',
             subtitle: 'Do you want to get reminded to play every day?',
@@ -49,7 +49,7 @@ class ProfileSettingsRoute extends HookWidget {
             boxName: SETTINGS_BOX,
             settingKey: SETTINGS_NOTIFICATIONS_KEY,
           ),
-          SectionTitle('Miscellaneous'),
+          const SectionTitle('Miscellaneous'),
           ListTile(
             title: Text('Enjoying the app?'),
             subtitle: Text('Leave us a review in the store.'),
