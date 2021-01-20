@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:musicavis/repository/models/exercise.dart';
+
 import 'package:musicavis/ui/routes/practice/tabs/exercise/item.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
+import 'package:musicavis/ui/widgets/simple_slider.dart';
 import 'package:musicavis/utils/practice.dart';
 
 class ExerciseTab extends StatelessWidget {
   final type = TabType.exercise;
-  final List<Exercise> items;
+  final Exercises items;
+  final Values bpmRange;
+  final Values minutesRange;
   final CrudOperations crud;
 
-  ExerciseTab(this.items, this.crud);
+  ExerciseTab(this.items, this.crud, this.bpmRange, this.minutesRange);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,9 @@ class ExerciseTab extends StatelessWidget {
           itemBuilder: (context, index) => Slidable(
             actionPane: SlidableDrawerActionPane(),
             actionExtentRatio: 0.25,
-            child: Container(child: ExerciseItem(index, items[index])),
+            child: Container(
+              child: ExerciseItem(index, items, bpmRange, minutesRange),
+            ),
             secondaryActions: [
               IconSlideAction(
                 caption: 'Delete',

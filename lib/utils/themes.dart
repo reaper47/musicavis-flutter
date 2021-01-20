@@ -4,6 +4,15 @@ const BLACK_THEME_PREF = 'Black';
 const DARK_THEME_PREF = 'Dark';
 const LIGHT_THEME_PREF = 'Light';
 
+const double defaultFontSize = 16;
+const double biggerFontSize = defaultFontSize + 2;
+const double smallFontSize = defaultFontSize - 2;
+
+final greyTextStyle = (double fontSize) => TextStyle(
+      fontSize: fontSize,
+      color: Colors.grey,
+    );
+
 final themesList = [LIGHT_THEME_PREF, DARK_THEME_PREF, BLACK_THEME_PREF];
 
 class AppTheme {

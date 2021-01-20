@@ -13,12 +13,14 @@ class PracticeProvider extends StateNotifier<Practice> {
 
   PracticeProvider([Practice practice]) : super(practice ?? null);
 
+  // Getters
   CrudOperations get crud => CrudOperations(
         add: addItem,
         delete: deleteItem,
         update: updateItem,
       );
 
+  // Crud operations on practice
   void create(String instrument) => state = Practice.create(instrument);
 
   void save() {
@@ -29,6 +31,10 @@ class PracticeProvider extends StateNotifier<Practice> {
     //
   }
 
+  void update(TabType type, int index, String value) =>
+      state.update(type, index, value);
+
+  // Crud operations on items
   void addItem(TabType type) => state = state..add('', type);
 
   void updateItem(TabType type, int index, String value) =>

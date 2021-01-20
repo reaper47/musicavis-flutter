@@ -50,7 +50,7 @@ class InstrumentListRoute extends HookWidget {
             GestureDetector(
               child: Tile(
                 instrument.name,
-                selectedInstrumentsProvider.getIds().contains(instrument.id),
+                selectedInstrumentsProvider.ids.contains(instrument.id),
               ),
               onTap: () {
                 context.read(instrumentStateNotifier).toggle(instrument.id);

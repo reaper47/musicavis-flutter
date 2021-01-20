@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:musicavis/utils/colors.dart';
 
+StatelessWidget makeAvatar(int index, bool isEnabled) =>
+    isEnabled ? AvatarEnabled(index) : AvatarDisabled();
+
 class AvatarEnabled extends StatelessWidget {
   final int number;
 

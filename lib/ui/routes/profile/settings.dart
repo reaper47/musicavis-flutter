@@ -76,7 +76,7 @@ class ProfileSettingsRoute extends HookWidget {
   Widget _numMinutesDialog(BuildContext context) {
     final settingsProvider = useProvider(settingsStateNotifier);
     final controller = TextEditingController(
-      text: settingsProvider.getMinutesMax(),
+      text: settingsProvider.minutesMax.toString(),
     );
 
     return AlertDialog(
@@ -98,7 +98,7 @@ class ProfileSettingsRoute extends HookWidget {
           numMinutes = 1;
           controller.text = '1';
         }
-        settingsProvider.updateMinutesMax(numMinutes);
+        settingsProvider.minutesMax = numMinutes;
         Navigator.of(context).pop();
       }),
     );

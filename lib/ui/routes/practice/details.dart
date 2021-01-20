@@ -7,6 +7,8 @@ import 'package:hooks_riverpod/all.dart';
 
 import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
+import 'package:musicavis/ui/widgets/simple_slider.dart';
+import 'package:musicavis/utils/practice.dart';
 
 enum PopOptions {
   Save,
@@ -14,12 +16,16 @@ enum PopOptions {
 }
 
 class PracticeDetailsRoute extends HookWidget {
-  const PracticeDetailsRoute({Key key}) : super(key: key);
+  final Values bpmRange;
+  final Values minutesRange;
+
+  const PracticeDetailsRoute({Key key, this.bpmRange, this.minutesRange})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final practice = useProvider(practiceStateNotifier.state);
-    final crud = useProvider(practiceStateNotifier).crud;
+    final crud = context.read(practiceStateNotifier).crud;
 
     return DefaultTabController(
       length: tabs.length,
@@ -57,7 +63,12 @@ class PracticeDetailsRoute extends HookWidget {
               case TabType.goal:
                 return ListTab(x.tabType, practice.goals, crud);
               case TabType.exercise:
-                return ExerciseTab(practice.exercises, crud);
+                return ExerciseTab(
+                  Exercises.create(practice.exercises),
+                  crud,
+                  bpmRange,
+                  minutesRange,
+                );
               case TabType.improvement:
                 return ListTab(x.tabType, practice.improvements, crud);
               case TabType.positive:

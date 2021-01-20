@@ -9,6 +9,7 @@ import 'package:musicavis/providers/selectedInstrument.dart';
 import 'package:musicavis/providers/settings.dart';
 import 'package:musicavis/providers/theme.dart';
 import 'package:musicavis/ui/routes/all.dart';
+import 'package:musicavis/ui/widgets/simple_slider.dart';
 
 class PracticeRoute extends HookWidget {
   const PracticeRoute({Key key}) : super(key: key);
@@ -106,11 +107,21 @@ class InstrumentSelectionCard extends HookWidget {
   }
 
   void _createPractice(BuildContext context) {
-    final instrument =
-        context.read(selectedInstrumentsStateNotifier).getSelectedInstrument();
-    context.read(practiceStateNotifier).create(instrument);
+    context
+        .read(practiceStateNotifier)
+        .create(context.read(selectedInstrumentsStateNotifier).firstInstrument);
+
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const PracticeDetailsRoute()),
+      MaterialPageRoute(builder: (_) {
+        final settings = context.read(settingsStateNotifier);
+        final bpms = settings.bpmRange;
+        final minutesMax = settings.minutesMax;
+
+        return PracticeDetailsRoute(
+          bpmRange: Values(bpms.min, (bpms.max + bpms.min) ~/ 2, bpms.max),
+          minutesRange: Values(1, (minutesMax + 1) ~/ 2, minutesMax),
+        );
+      }),
     );
   }
 }
@@ -134,8 +145,7 @@ class _InstrumentDropdownState extends State<InstrumentDropdown> {
           dropdownColor: Theme.of(context).cardColor.withOpacity(0.8),
           elevation: 16,
           icon: Icon(Icons.arrow_drop_down, size: 24),
-          items: instrumentsProvider
-              .getInstruments()
+          items: instrumentsProvider.instruments
               .map((x) => DropdownMenuItem(value: x.name, child: Text(x.name)))
               .toList(),
           onChanged: (x) =>
@@ -144,7 +154,7 @@ class _InstrumentDropdownState extends State<InstrumentDropdown> {
             color: Theme.of(context).accentColor.withOpacity(0.8),
             height: 2,
           ),
-          value: instrumentsProvider.getSelectedInstrument(),
+          value: instrumentsProvider.firstInstrument,
         );
       },
     );

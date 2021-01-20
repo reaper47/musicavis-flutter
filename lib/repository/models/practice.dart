@@ -68,7 +68,7 @@ class Practice extends HiveObject {
         goals[index] = value;
         break;
       case TabType.exercise:
-        print('update exercise');
+        exercises[index].name = value;
         break;
       case TabType.improvement:
         improvements[index] = value;
@@ -131,7 +131,7 @@ class Practice extends HiveObject {
         _deleteItem(index, goals);
         break;
       case TabType.exercise:
-        print('delete exercise');
+        _deleteItem(index, exercises);
         break;
       case TabType.improvement:
         _deleteItem(index, improvements);
@@ -144,9 +144,9 @@ class Practice extends HiveObject {
     }
   }
 
-  void _deleteItem(int index, List<String> items) {
+  void _deleteItem(int index, List<dynamic> items) {
     if (items.length == 1) {
-      items[0] = '';
+      (items[0] is String) ? items[0] = '' : items[0].name = '';
     } else {
       items.removeAt(index);
     }

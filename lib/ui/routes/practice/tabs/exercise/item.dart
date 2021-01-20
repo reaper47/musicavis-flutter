@@ -1,42 +1,43 @@
 import 'package:flutter/material.dart';
 
-import 'package:musicavis/repository/models/exercise.dart';
 import 'package:musicavis/ui/routes/practice/tabs/exercise/avatar.dart';
 import 'package:musicavis/ui/routes/practice/tabs/exercise/title.dart';
 import 'package:musicavis/ui/widgets/simple_slider.dart';
+import 'package:musicavis/utils/practice.dart';
 
 class ExerciseItem extends StatefulWidget {
   final int index;
-  final Exercise exercise;
+  final Exercises exercises;
+  final Values bpmRange;
+  final Values minutesRange;
 
-  ExerciseItem(this.index, this.exercise);
+  ExerciseItem(this.index, this.exercises, this.bpmRange, this.minutesRange);
 
   @override
   _ExerciseItemState createState() => _ExerciseItemState();
 }
 
 class _ExerciseItemState extends State<ExerciseItem> {
-  bool _isEnabled = true;
-
   @override
   Widget build(BuildContext context) {
-    final index = widget.index;
-    final name = widget.exercise.name;
-
-    final avatar = _isEnabled ? AvatarEnabled(index) : const AvatarDisabled();
-    final title = _isEnabled ? TitleEnabled(name) : TitleDisabled(name);
+    final exercise = widget.exercises.exercises[widget.index];
+    final isEnabled = widget.exercises.isEnabled[widget.index];
 
     return ListTile(
       leading: GestureDetector(
-        onTapDown: (event) => setState(() => _isEnabled = !_isEnabled),
-        child: avatar,
+        onTapDown: (event) =>
+            setState(() => widget.exercises.toggleEnabled(widget.index)),
+        child: makeAvatar(widget.index, isEnabled),
       ),
       title: Column(
         children: [
-          title,
-          SimpleSlider(const Values(0, 50, 100)),
-          SimpleSlider(const Values(0, 50, 100)),
-          SimpleSlider(const Values(0, 50, 100)),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
+            child: makeTitle(widget.index, exercise.name, isEnabled),
+          ),
+          SimpleSlider('BPM Start', widget.bpmRange, isEnabled),
+          SimpleSlider('BPM End', widget.bpmRange, isEnabled),
+          SimpleSlider('Minutes', widget.minutesRange, isEnabled),
         ],
       ),
     );

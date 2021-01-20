@@ -16,12 +16,14 @@ class SelectedInstrumentsList extends StateNotifier<List<InstrumentItem>> {
 
   SelectedInstrumentsList([List<InstrumentItem> items]) : super(items ?? []);
 
-  List<dynamic> getIds() => _settingsBox.get(SETTINGS_INSTRUMENTS_SELECTED_KEY);
+  List<dynamic> get ids => _settingsBox.get(SETTINGS_INSTRUMENTS_SELECTED_KEY);
 
-  List<InstrumentItem> getInstruments() {
+  List<InstrumentItem> get instruments {
     _refresh();
     return _instruments;
   }
+
+  String get firstInstrument => _selected ?? _instruments[0].name;
 
   void _refresh() {
     _instruments.clear();
@@ -40,8 +42,6 @@ class SelectedInstrumentsList extends StateNotifier<List<InstrumentItem>> {
 
     _instruments.sort((a, b) => a.name.compareTo(b.name));
   }
-
-  String getSelectedInstrument() => _selected ?? _instruments[0].name;
 
   void setSelectedInstrument(String instrument) => _selected = instrument;
 }
