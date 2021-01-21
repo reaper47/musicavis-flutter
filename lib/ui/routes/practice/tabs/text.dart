@@ -9,12 +9,20 @@ import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 class TextTab extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final practice = useProvider(practiceStateNotifier.state);
+    final notes = useProvider(practiceStateNotifier.state).notes;
+
     return Card(
       child: Container(
         padding: const EdgeInsets.all(20.0),
         child: TextField(
-          controller: TextEditingController(text: practice.notes),
+          controller: (notes == null)
+              ? TextEditingController(text: notes)
+              : TextEditingController.fromValue(
+                  TextEditingValue(
+                    text: notes,
+                    selection: TextSelection.collapsed(offset: notes.length),
+                  ),
+                ),
           textInputAction: TextInputAction.newline,
           keyboardType: TextInputType.multiline,
           maxLines: null,

@@ -15,8 +15,6 @@ class ListTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final focusNode = FocusNode()..requestFocus();
-
     return Scaffold(
       body: ListView.builder(
         itemCount: items.length,
@@ -42,10 +40,8 @@ class ListTab extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: captionTabType(type),
                 ),
-                focusNode: (items.length > 1 && index == items.length - 1)
-                    ? focusNode
-                    : null,
                 onChanged: (value) => crud.update(type, index, value),
+                onEditingComplete: () => crud.add(type),
               ),
             ),
           ),
@@ -58,15 +54,6 @@ class ListTab extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
-        tooltip: 'Add and entry',
-        onPressed: () {
-          focusNode.unfocus();
-          crud.add(type);
-        },
-        child: Icon(Icons.add),
       ),
     );
   }

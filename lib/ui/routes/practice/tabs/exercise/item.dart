@@ -8,10 +8,8 @@ import 'package:musicavis/utils/practice.dart';
 class ExerciseItem extends StatefulWidget {
   final int index;
   final Exercises exercises;
-  final Values bpmRange;
-  final Values minutesRange;
 
-  ExerciseItem(this.index, this.exercises, this.bpmRange, this.minutesRange);
+  ExerciseItem(this.index, this.exercises);
 
   @override
   _ExerciseItemState createState() => _ExerciseItemState();
@@ -21,6 +19,9 @@ class _ExerciseItemState extends State<ExerciseItem> {
   @override
   Widget build(BuildContext context) {
     final exercise = widget.exercises.exercises[widget.index];
+    final bpmStartRange = widget.exercises.bpmStartRanges[widget.index];
+    final bpmEndRange = widget.exercises.bpmEndRanges[widget.index];
+    final minuteRange = widget.exercises.minuteRanges[widget.index];
     final isEnabled = widget.exercises.isEnabled[widget.index];
 
     return ListTile(
@@ -35,9 +36,9 @@ class _ExerciseItemState extends State<ExerciseItem> {
             padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
             child: makeTitle(widget.index, exercise.name, isEnabled),
           ),
-          SimpleSlider('BPM Start', widget.bpmRange, isEnabled),
-          SimpleSlider('BPM End', widget.bpmRange, isEnabled),
-          SimpleSlider('Minutes', widget.minutesRange, isEnabled),
+          SimpleSlider('BPM Start', bpmStartRange, isEnabled),
+          SimpleSlider('BPM End', bpmEndRange, isEnabled),
+          SimpleSlider('Minutes', minuteRange, isEnabled),
         ],
       ),
     );

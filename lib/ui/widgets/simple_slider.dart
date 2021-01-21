@@ -5,10 +5,12 @@ final smallGrey = greyTextStyle(smallFontSize);
 
 class Values {
   final int min;
-  final int current;
+  int current;
   final int max;
 
-  const Values(this.min, this.current, this.max);
+  Values(this.min, this.current, this.max);
+
+  set currentValue(int value) => current = value;
 }
 
 class SimpleSlider extends StatefulWidget {
@@ -47,14 +49,15 @@ class _SimpleSliderState extends State<SimpleSlider> {
               ),
               Flexible(
                 child: Slider(
-                  value: _current,
+                  value: widget.values.current.toDouble(),
                   min: min.toDouble(),
                   max: max.toDouble(),
                   divisions: max - min,
-                  onChanged: (value) => setState(() => _current = value),
+                  onChanged: (value) =>
+                      setState(() => widget.values.current = value.toInt()),
                 ),
               ),
-              Text(_current.toInt().toString())
+              Text(widget.values.current.toInt().toString())
             ],
           ),
         ],
