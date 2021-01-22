@@ -58,7 +58,7 @@ class PracticeDetailsRoute extends HookWidget {
               case TabType.goal:
                 return ListTab(x.tabType, practice.goals, crud);
               case TabType.exercise:
-                return ExerciseTab(practice.exercises, crud);
+                return ExerciseTab(practice.dataHolder.exercises, crud);
               case TabType.improvement:
                 return ListTab(x.tabType, practice.improvements, crud);
               case TabType.positive:

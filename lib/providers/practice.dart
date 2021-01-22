@@ -11,8 +11,7 @@ final practiceStateNotifier = StateNotifierProvider((_) => PracticeProvider());
 
 class PracticeProvider extends StateNotifier<Practice> {
   final _practiceBox = Hive.box<Practice>(PRACTICES_BOX);
-  Exercises exercises;
-  DataHolder dataHolder = DataHolder.init();
+  DataHolder dataHolder;
 
   PracticeProvider([Practice practice]) : super(practice ?? null);
 
@@ -36,7 +35,9 @@ class PracticeProvider extends StateNotifier<Practice> {
   // Crud operations on practice
   void create(String instrument, SettingsState settings) {
     final practice = Practice.create(instrument);
-    exercises = Exercises.create(practice.exercises, settings);
+    dataHolder = DataHolder.init(
+      exercises: Exercises.create(practice.exercises, settings),
+    );
     state = practice;
   }
 
@@ -64,7 +65,7 @@ class PracticeProvider extends StateNotifier<Practice> {
         dataHolder.goals[index] = value;
         break;
       case TabType.exercise:
-        dataHolder.exerciseNames[index] = value;
+        dataHolder.exercises.exercises[index].name = value;
         break;
       case TabType.positive:
         dataHolder.positives[index] = value;
@@ -79,6 +80,8 @@ class PracticeProvider extends StateNotifier<Practice> {
     }
   }
 
-  void deleteItem(TabType type, int index) =>
-      state = state..deleteItem(index, type);
+  void deleteItem(TabType type, int index) {
+    dataHolder.deleteItem(type, index);
+    state = state..deleteItem(index, type);
+  }
 }

@@ -28,7 +28,7 @@ class TitleEnabled extends HookWidget {
       autofocus: false,
       autocorrect: true,
       style: TextStyle(fontSize: defaultFontSize),
-      onChanged: (value) => practice.update(TabType.exercise, index, value),
+      onChanged: (value) => practice.updateItem(TabType.exercise, index, value),
       decoration: InputDecoration(
         hintText: captionTabType(TabType.exercise),
       ),

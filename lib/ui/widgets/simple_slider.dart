@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
+
+import 'package:musicavis/utils/practice.dart';
 import 'package:musicavis/utils/themes.dart';
 
 final smallGrey = greyTextStyle(smallFontSize);
-
-class Values {
-  final int min;
-  int current;
-  final int max;
-
-  Values(this.min, this.current, this.max);
-
-  set currentValue(int value) => current = value;
-}
 
 class SimpleSlider extends StatefulWidget {
   final String label;

@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 
 import 'package:musicavis/repository/boxes.dart';
-import 'package:musicavis/ui/widgets/simple_slider.dart';
 import 'package:musicavis/utils/constants.dart';
+import 'package:musicavis/utils/practice.dart';
 
 final settingsStateNotifier = StateNotifierProvider((_) => SettingsState());
 

@@ -45,17 +45,8 @@ class Practice extends HiveObject {
   Practice.create(String instrument) {
     this.instrument = instrument;
     goals = [''];
-
-    final settingsBox = Hive.box(SETTINGS_BOX);
-    exercises = HiveList(Hive.box<Exercise>(EXERCISES_BOX), objects: [
-      addExercise(
-        '',
-        settingsBox.get(SETTINGS_BPM_MIN_KEY),
-        settingsBox.get(SETTINGS_BPM_MIN_KEY),
-        settingsBox.get(SETTINGS_MINUTES_MAX_KEY),
-      )
-    ]);
-
+    exercises =
+        HiveList(Hive.box<Exercise>(EXERCISES_BOX), objects: [_makeExercise()]);
     positives = [''];
     improvements = [''];
     datetime = DateTime.now();
@@ -92,7 +83,10 @@ class Practice extends HiveObject {
         break;
       case TabType.exercise:
         for (var i = 0; i < exercises.length; i++) {
-          exercises[i].name = data.exerciseNames[i];
+          exercises[i].name = data.exercises.exercises[i].name;
+          exercises[i].bpmStart = data.exercises.exercises[i].bpmStart;
+          exercises[i].bpmEnd = data.exercises.exercises[i].bpmEnd;
+          exercises[i].minutes = data.exercises.exercises[i].minutes;
         }
         break;
       case TabType.improvement:
@@ -112,7 +106,7 @@ class Practice extends HiveObject {
         _addItem(item, goals);
         break;
       case TabType.exercise:
-        print('add exercise');
+        exercises.add(_makeExercise());
         break;
       case TabType.improvement:
         _addItem(item, improvements);
@@ -134,9 +128,16 @@ class Practice extends HiveObject {
     }
   }
 
-  Exercise addExercise(String name, int bpmStart, int bpmEnd, int minutes) {
+  Exercise _makeExercise() {
+    final settingsBox = Hive.box(SETTINGS_BOX);
+    final exercise = Exercise(
+      '',
+      settingsBox.get(SETTINGS_BPM_MIN_KEY),
+      settingsBox.get(SETTINGS_BPM_MAX_KEY),
+      settingsBox.get(SETTINGS_MINUTES_MAX_KEY),
+    );
+
     final box = Hive.box<Exercise>(EXERCISES_BOX);
-    final exercise = Exercise(name, bpmStart, bpmEnd, minutes);
     final exerciseInBox = box.values.where((el) => el == exercise);
 
     if (exerciseInBox.isEmpty) {

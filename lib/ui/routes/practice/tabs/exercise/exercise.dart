@@ -39,6 +39,7 @@ class ExerciseTab extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
+        mini: true,
         tooltip: 'Add an entry',
         onPressed: () => crud.add(type),
         child: Icon(Icons.add),
