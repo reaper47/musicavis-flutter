@@ -6,9 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 
 import 'package:musicavis/providers/practice.dart';
-import 'package:musicavis/providers/settings.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
-import 'package:musicavis/utils/practice.dart';
 
 enum PopOptions {
   Save,
@@ -20,8 +18,9 @@ class PracticeDetailsRoute extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final practice = useProvider(practiceStateNotifier.state);
-    final crud = context.read(practiceStateNotifier).crud;
+    useProvider(practiceStateNotifier.state);
+    final practice = useProvider(practiceStateNotifier);
+    final crud = practice.crud;
 
     return DefaultTabController(
       length: tabs.length,
@@ -59,13 +58,7 @@ class PracticeDetailsRoute extends HookWidget {
               case TabType.goal:
                 return ListTab(x.tabType, practice.goals, crud);
               case TabType.exercise:
-                return ExerciseTab(
-                  Exercises.create(
-                    practice.exercises,
-                    context.read(settingsStateNotifier),
-                  ),
-                  crud,
-                );
+                return ExerciseTab(practice.exercises, crud);
               case TabType.improvement:
                 return ListTab(x.tabType, practice.improvements, crud);
               case TabType.positive:

@@ -5,6 +5,7 @@ import 'package:musicavis/repository/boxes.dart';
 import 'package:musicavis/repository/models/exercise.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 import 'package:musicavis/utils/constants.dart';
+import 'package:musicavis/utils/practice.dart';
 
 part 'practice.g.dart';
 
@@ -78,6 +79,27 @@ class Practice extends HiveObject {
         break;
       case TabType.notes:
         notes = value;
+        break;
+      default:
+        break;
+    }
+  }
+
+  void updateAll(TabType type, DataHolder data) {
+    switch (type) {
+      case TabType.goal:
+        goals = List.from(data.goals);
+        break;
+      case TabType.exercise:
+        for (var i = 0; i < exercises.length; i++) {
+          exercises[i].name = data.exerciseNames[i];
+        }
+        break;
+      case TabType.improvement:
+        improvements = List.from(data.improvements);
+        break;
+      case TabType.positive:
+        positives = List.from(data.positives);
         break;
       default:
         break;

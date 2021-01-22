@@ -106,9 +106,10 @@ class InstrumentSelectionCard extends HookWidget {
   }
 
   void _createPractice(BuildContext context) {
-    context
-        .read(practiceStateNotifier)
-        .create(context.read(selectedInstrumentsStateNotifier).firstInstrument);
+    final instrument =
+        context.read(selectedInstrumentsStateNotifier).firstInstrument;
+    final settings = context.read(settingsStateNotifier);
+    context.read(practiceStateNotifier).create(instrument, settings);
 
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => PracticeDetailsRoute()),

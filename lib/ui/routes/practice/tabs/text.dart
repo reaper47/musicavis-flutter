@@ -15,14 +15,7 @@ class TextTab extends HookWidget {
       child: Container(
         padding: const EdgeInsets.all(20.0),
         child: TextField(
-          controller: (notes == null)
-              ? TextEditingController(text: notes)
-              : TextEditingController.fromValue(
-                  TextEditingValue(
-                    text: notes,
-                    selection: TextSelection.collapsed(offset: notes.length),
-                  ),
-                ),
+          controller: TextEditingController(text: notes),
           textInputAction: TextInputAction.newline,
           keyboardType: TextInputType.multiline,
           maxLines: null,

@@ -1,5 +1,6 @@
 import 'package:musicavis/providers/settings.dart';
 import 'package:musicavis/repository/models/exercise.dart';
+import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 import 'package:musicavis/ui/widgets/simple_slider.dart';
 
 class CrudOperations {
@@ -7,7 +8,11 @@ class CrudOperations {
   final Function delete;
   final Function update;
 
-  CrudOperations({this.add, this.delete, this.update});
+  CrudOperations({
+    this.add,
+    this.delete,
+    this.update,
+  });
 }
 
 class Exercises {
@@ -40,4 +45,41 @@ class Exercises {
   void toggleEnabled(int index) {
     isEnabled[index] = !isEnabled[index];
   }
+}
+
+class DataHolder {
+  List<String> goals;
+  List<String> exerciseNames;
+  List<String> positives;
+  List<String> improvements;
+
+  DataHolder.init() {
+    goals = [''];
+    exerciseNames = [''];
+    positives = [''];
+    improvements = [''];
+  }
+
+  addEntry(TabType type) {
+    switch (type) {
+      case TabType.goal:
+        goals.add('');
+        break;
+      case TabType.exercise:
+        exerciseNames.add('');
+        break;
+      case TabType.positive:
+        positives.add('');
+        break;
+      case TabType.improvement:
+        improvements.add('');
+        break;
+      default:
+    }
+  }
+
+  @override
+  String toString() =>
+      'DataHolder { goals: $goals, exerciseNames: $exerciseNames,'
+      'positives: $positives, improvements: $improvements }';
 }
