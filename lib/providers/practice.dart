@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:musicavis/providers/settings.dart';
 import 'package:musicavis/repository/models/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
-import 'package:musicavis/utils/practice.dart';
+import 'package:musicavis/utils/practice/index.dart';
 
 final practiceStateNotifier = StateNotifierProvider((_) => PracticeProvider());
 

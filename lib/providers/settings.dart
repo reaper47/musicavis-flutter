@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 
 import 'package:musicavis/repository/boxes.dart';
 import 'package:musicavis/utils/constants.dart';
-import 'package:musicavis/utils/practice.dart';
+import 'package:musicavis/utils/practice/index.dart';
 
 final settingsStateNotifier = StateNotifierProvider((_) => SettingsState());
 

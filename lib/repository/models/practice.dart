@@ -5,7 +5,7 @@ import 'package:musicavis/repository/boxes.dart';
 import 'package:musicavis/repository/models/exercise.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 import 'package:musicavis/utils/constants.dart';
-import 'package:musicavis/utils/practice.dart';
+import 'package:musicavis/utils/practice/index.dart';
 
 part 'practice.g.dart';
 

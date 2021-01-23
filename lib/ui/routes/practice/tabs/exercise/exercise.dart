@@ -4,7 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:musicavis/ui/routes/practice/tabs/exercise/item.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
-import 'package:musicavis/utils/practice.dart';
+import 'package:musicavis/utils/practice/index.dart';
 
 class ExerciseTab extends StatelessWidget {
   final Exercises items;

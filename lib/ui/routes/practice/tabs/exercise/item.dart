@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:musicavis/ui/routes/practice/tabs/exercise/avatar.dart';
 import 'package:musicavis/ui/routes/practice/tabs/exercise/title.dart';
 import 'package:musicavis/ui/widgets/simple_slider.dart';
-import 'package:musicavis/utils/practice.dart';
+import 'package:musicavis/utils/practice/index.dart';
 
 class ExerciseItem extends StatefulWidget {
   final int index;
