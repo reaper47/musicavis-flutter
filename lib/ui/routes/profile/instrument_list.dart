@@ -62,7 +62,7 @@ class InstrumentListRoute extends HookWidget {
     );
   }
 
-  void _addInstrument(BuildContext context, String name) {
+  _addInstrument(BuildContext context, String name) {
     context.read(instrumentStateNotifier).add(name);
     Navigator.of(context).pop();
   }

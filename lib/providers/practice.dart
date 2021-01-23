@@ -1,8 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
 
 import 'package:musicavis/providers/settings.dart';
-import 'package:musicavis/repository/boxes.dart';
 import 'package:musicavis/repository/models/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 import 'package:musicavis/utils/practice.dart';
@@ -10,7 +8,6 @@ import 'package:musicavis/utils/practice.dart';
 final practiceStateNotifier = StateNotifierProvider((_) => PracticeProvider());
 
 class PracticeProvider extends StateNotifier<Practice> {
-  final _practiceBox = Hive.box<Practice>(PRACTICES_BOX);
   DataHolder dataHolder;
 
   PracticeProvider([Practice practice]) : super(practice ?? null);
@@ -33,7 +30,7 @@ class PracticeProvider extends StateNotifier<Practice> {
   String get notes => state.notes;
 
   // Crud operations on practice
-  void create(String instrument, SettingsState settings) {
+  create(String instrument, SettingsState settings) {
     final practice = Practice.create(instrument);
     dataHolder = DataHolder.init(
       exercises: Exercises.create(practice.exercises, settings),
@@ -41,25 +38,24 @@ class PracticeProvider extends StateNotifier<Practice> {
     state = practice;
   }
 
-  void save() {
-    //
+  save() {
+    state.refreshExercises(dataHolder);
+    state.savePractice(dataHolder);
   }
 
-  void delete() {
-    //
-  }
+  delete() => state.deletePractice();
 
-  void update(TabType type, int index, String value) =>
+  update(TabType type, int index, String value) =>
       state.update(type, index, value);
 
   // Crud operations on items
-  void addItem(TabType type) {
+  addItem(TabType type) {
     state.updateAll(type, dataHolder);
     dataHolder.addEntry(type);
     state = state..add('', type);
   }
 
-  void updateItem(TabType type, int index, String value) {
+  updateItem(TabType type, int index, String value) {
     switch (type) {
       case TabType.goal:
         dataHolder.goals[index] = value;
@@ -80,7 +76,7 @@ class PracticeProvider extends StateNotifier<Practice> {
     }
   }
 
-  void deleteItem(TabType type, int index) {
+  deleteItem(TabType type, int index) {
     dataHolder.deleteItem(type, index);
     state = state..deleteItem(index, type);
   }

@@ -36,7 +36,7 @@ class _BpmRangeDialogState extends State<BpmRangeDialog> {
   Box _box;
 
   @override
-  void initState() {
+  initState() {
     _box = Hive.box(SETTINGS_BOX);
     _currentRangeValues = RangeValues(
       _box.get(SETTINGS_BPM_MIN_KEY) + .0,
@@ -81,7 +81,7 @@ class _BpmRangeDialogState extends State<BpmRangeDialog> {
     );
   }
 
-  void _setBpm(int min, int max) {
+  _setBpm(int min, int max) {
     if (min.compareTo(max) == 0) {
       max += 10;
     }

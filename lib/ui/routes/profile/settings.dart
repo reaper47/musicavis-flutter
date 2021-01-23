@@ -104,7 +104,7 @@ class ProfileSettingsRoute extends HookWidget {
     );
   }
 
-  void _showAboutDialog(BuildContext context) {
+  _showAboutDialog(BuildContext context) {
     showAboutDialog(
       context: context,
       applicationName: APP_NAME,
@@ -114,14 +114,14 @@ class ProfileSettingsRoute extends HookWidget {
     );
   }
 
-  void _redirectToStore() {
+  _redirectToStore() {
     LaunchReview.launch(
       androidAppId: 'com.musicavis.app',
       iOSAppId: '585027354',
     );
   }
 
-  void _sendEmail() {
+  _sendEmail() {
     final Uri _emailLaunchUri = Uri(
       scheme: 'mailto',
       path: 'macpoule@gmail.com',

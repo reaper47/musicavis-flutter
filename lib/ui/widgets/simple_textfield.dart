@@ -17,12 +17,12 @@ class SimpleTextField extends StatefulWidget {
 class _SimpleTextFieldState extends State<SimpleTextField> {
   TextEditingController _controller;
 
-  void initState() {
+  initState() {
     super.initState();
     _controller = TextEditingController();
   }
 
-  void dispose() {
+  dispose() {
     _controller.dispose();
     super.dispose();
   }

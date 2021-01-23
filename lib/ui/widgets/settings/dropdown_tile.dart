@@ -33,7 +33,7 @@ class _DropdownTileState<T> extends State<DropdownTile<T>> {
   Box<dynamic> _box;
 
   @override
-  void initState() {
+  initState() {
     _box = Hive.box(widget.boxName);
     super.initState();
   }

@@ -25,7 +25,7 @@ class SelectedInstrumentsList extends StateNotifier<List<InstrumentItem>> {
 
   String get firstInstrument => _selected ?? _instruments[0].name;
 
-  void _refresh() {
+  _refresh() {
     _instruments.clear();
 
     final selected = _settingsBox.get(SETTINGS_INSTRUMENTS_SELECTED_KEY);
@@ -43,5 +43,5 @@ class SelectedInstrumentsList extends StateNotifier<List<InstrumentItem>> {
     _instruments.sort((a, b) => a.name.compareTo(b.name));
   }
 
-  void setSelectedInstrument(String instrument) => _selected = instrument;
+  setSelectedInstrument(String instrument) => _selected = instrument;
 }

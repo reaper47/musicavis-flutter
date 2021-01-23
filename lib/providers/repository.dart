@@ -29,7 +29,7 @@ class InstrumentList extends StateNotifier<List<InstrumentItem>> {
 
   InstrumentList(List<InstrumentItem> items) : super(items);
 
-  void add(String name) {
+  add(String name) {
     if (_instrumentsBox.get(name.toLowerCase()) == null) {
       final id = state.length + 1;
       _instrumentsBox.put(id, name.toLowerCase());
@@ -38,7 +38,7 @@ class InstrumentList extends StateNotifier<List<InstrumentItem>> {
     }
   }
 
-  void toggle(int id) {
+  toggle(int id) {
     List<InstrumentItem> _newState = [];
     final _instrumentsSelected =
         _settingsBox.get(SETTINGS_INSTRUMENTS_SELECTED_KEY);

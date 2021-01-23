@@ -17,33 +17,35 @@ class PracticeAdapter extends TypeAdapter<Practice> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Practice(
-      instrument: fields[0] as String,
-      goals: (fields[1] as List)?.cast<String>(),
-      exercises: (fields[2] as HiveList)?.castHiveList(),
-      positives: (fields[3] as List)?.cast<String>(),
-      improvements: (fields[4] as List)?.cast<String>(),
-      notes: fields[5] as String,
-      datetime: fields[6] as DateTime,
-    );
+      instrument: fields[1] as String,
+      goals: (fields[2] as List)?.cast<String>(),
+      exercises: (fields[3] as HiveList)?.castHiveList(),
+      positives: (fields[4] as List)?.cast<String>(),
+      improvements: (fields[5] as List)?.cast<String>(),
+      notes: fields[6] as String,
+      datetime: fields[7] as DateTime,
+    )..id = fields[0] as int;
   }
 
   @override
   void write(BinaryWriter writer, Practice obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
-      ..write(obj.instrument)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.goals)
+      ..write(obj.instrument)
       ..writeByte(2)
-      ..write(obj.exercises)
+      ..write(obj.goals)
       ..writeByte(3)
-      ..write(obj.positives)
+      ..write(obj.exercises)
       ..writeByte(4)
-      ..write(obj.improvements)
+      ..write(obj.positives)
       ..writeByte(5)
-      ..write(obj.notes)
+      ..write(obj.improvements)
       ..writeByte(6)
+      ..write(obj.notes)
+      ..writeByte(7)
       ..write(obj.datetime);
   }
 

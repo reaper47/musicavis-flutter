@@ -1,5 +1,9 @@
+import 'package:hive/hive.dart';
+
 import 'package:musicavis/providers/settings.dart';
+import 'package:musicavis/repository/boxes.dart';
 import 'package:musicavis/repository/models/exercise.dart';
+import 'package:musicavis/repository/models/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 
 class CrudOperations {
@@ -62,6 +66,12 @@ class DataHolder {
       default:
     }
   }
+
+  refresh(int index, Exercise exercise) {
+    exercise.bpmStart = exercises.bpmStartRanges[index].current;
+    exercise.bpmEnd = exercises.bpmEndRanges[index].current;
+    exercise.minutes = exercises.minuteRanges[index].current;
+  }
 }
 
 class Exercises {
@@ -94,7 +104,7 @@ class Exercises {
 
   int get length => exercises.length;
 
-  void add() {
+  add() {
     final bpm = bpmStartRanges[0];
     exercises.add(ExerciseDao('', bpm.min, bpm.max, minuteRanges.first.max));
     bpmStartRanges.add(Values.from(initValues));
@@ -103,7 +113,15 @@ class Exercises {
     isEnabled.add(true);
   }
 
-  void delete(int index) {
+  refresh() {
+    for (var i = 0; i < exercises.length; i++) {
+      exercises[i].bpmStart = bpmStartRanges[i].current;
+      exercises[i].bpmEnd = bpmEndRanges[i].current;
+      exercises[i].minutes = minuteRanges[i].current;
+    }
+  }
+
+  delete(int index) {
     exercises.removeAt(index);
     bpmStartRanges.removeAt(index);
     bpmEndRanges.removeAt(index);
@@ -111,7 +129,7 @@ class Exercises {
     isEnabled.removeAt(index);
   }
 
-  void toggleEnabled(int index) {
+  toggleEnabled(int index) {
     isEnabled[index] = !isEnabled[index];
   }
 }
@@ -149,4 +167,43 @@ class Values {
   }
 
   set currentValue(int value) => current = value;
+}
+
+class FilterPractice {
+  final Practice practice;
+
+  List<String> goalsOriginal;
+  List<Exercise> exercisesOriginal;
+  List<String> positivesOriginal;
+  List<String> improvementsOriginal;
+
+  FilterPractice.filter(this.practice) {
+    _store();
+
+    final goals = practice.goals.where((x) => x != '').toList();
+    final exercises = practice.exercises.where((x) => x.name != '').toList();
+    final positives = practice.positives.where((x) => x != '').toList();
+    final improvements = practice.improvements.where((x) => x != '').toList();
+
+    practice.goals = goals;
+    practice.exercises =
+        HiveList(Hive.box<Exercise>(EXERCISES_BOX), objects: exercises);
+    practice.positives = positives;
+    practice.improvements = improvements;
+  }
+
+  _store() {
+    goalsOriginal = List.from(practice.goals);
+    exercisesOriginal = [for (var x in practice.exercises) x];
+    positivesOriginal = List.from(practice.positives);
+    improvementsOriginal = List.from(practice.improvements);
+  }
+
+  restore() {
+    practice.goals = goalsOriginal;
+    practice.exercises =
+        HiveList(Hive.box<Exercise>(EXERCISES_BOX), objects: exercisesOriginal);
+    practice.positives = positivesOriginal;
+    practice.improvements = improvementsOriginal;
+  }
 }

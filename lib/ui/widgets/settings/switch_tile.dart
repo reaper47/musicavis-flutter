@@ -30,7 +30,7 @@ class _SwitchTileState extends State<SwitchTile> {
   Box<dynamic> _box;
 
   @override
-  void initState() {
+  initState() {
     _box = Hive.box(widget.boxName);
     super.initState();
   }

@@ -13,7 +13,7 @@ import 'ui/routes/all.dart';
 import 'utils/constants.dart';
 import 'utils/themes.dart';
 
-void main() async {
+main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
@@ -34,12 +34,12 @@ class MusicavisApp extends StatefulHookWidget {
 
 class _MusicavisAppState extends State<MusicavisApp> {
   @override
-  void initState() {
+  initState() {
     super.initState();
   }
 
   @override
-  void dispose() {
+  dispose() {
     boxes.forEach((box) => Hive.box(box).compact());
     Hive.close();
     super.dispose();

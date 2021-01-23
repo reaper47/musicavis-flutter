@@ -10,7 +10,7 @@ final themeStateNotifier = StateNotifierProvider((_) => ThemeState());
 class ThemeState extends StateNotifier<String> {
   ThemeState() : super(Hive.box(SETTINGS_BOX).get(SETTINGS_THEME_KEY));
 
-  void setTheme(String name) => state = name;
+  setTheme(String name) => state = name;
 
   bool isBlackTheme() => state == BLACK_THEME_PREF;
 

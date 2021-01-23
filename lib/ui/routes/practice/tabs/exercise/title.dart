@@ -22,13 +22,11 @@ class TitleEnabled extends HookWidget {
 
     return TextField(
       controller: TextEditingController(text: title),
-      textInputAction: TextInputAction.newline,
-      keyboardType: TextInputType.multiline,
-      maxLines: null,
-      autofocus: false,
-      autocorrect: true,
+      textInputAction: TextInputAction.done,
+      keyboardType: TextInputType.text,
       style: TextStyle(fontSize: defaultFontSize),
       onChanged: (value) => practice.updateItem(TabType.exercise, index, value),
+      onEditingComplete: () => practice.addItem(TabType.exercise),
       decoration: InputDecoration(
         hintText: captionTabType(TabType.exercise),
       ),

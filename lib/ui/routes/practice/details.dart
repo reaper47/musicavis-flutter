@@ -28,7 +28,7 @@ class PracticeDetailsRoute extends HookWidget {
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => _save(context, popContext: true),
             tooltip: 'Back',
           ),
           actions: [
@@ -75,7 +75,7 @@ class PracticeDetailsRoute extends HookWidget {
     );
   }
 
-  void _popMenuHandler(BuildContext context, String value) {
+  _popMenuHandler(BuildContext context, String value) {
     if (value == EnumToString.convertToString(PopOptions.Save)) {
       _save(context);
     } else if (value == EnumToString.convertToString(PopOptions.Delete)) {
@@ -103,7 +103,7 @@ class PracticeDetailsRoute extends HookWidget {
     }
   }
 
-  void _save(BuildContext context, {bool popContext = false}) {
+  _save(BuildContext context, {bool popContext = false}) {
     context.read(practiceStateNotifier).save();
 
     if (!popContext) {
@@ -111,14 +111,12 @@ class PracticeDetailsRoute extends HookWidget {
         message: 'Practice has been saved.',
         duration: Duration(milliseconds: 2225),
       )..show(context);
-    }
-
-    if (popContext) {
+    } else {
       Navigator.of(context).pop();
     }
   }
 
-  void _delete(BuildContext context) {
+  _delete(BuildContext context) {
     context.read(practiceStateNotifier).delete();
 
     Navigator.of(context).pop();

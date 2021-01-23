@@ -28,7 +28,7 @@ final boxes = [
   INSTRUMENTS_BOX,
 ];
 
-void registerAdapters() {
+registerAdapters() {
   Hive.registerAdapter(PracticeAdapter());
   Hive.registerAdapter(ExerciseAdapter());
 }
@@ -48,7 +48,7 @@ Future openBoxes() async {
   _initInstruments();
 }
 
-void _initSettings() {
+_initSettings() {
   final box = Hive.box(SETTINGS_BOX);
   if (box.isEmpty) {
     box.put(SETTINGS_THEME_KEY, BLACK_THEME_PREF);
@@ -60,7 +60,7 @@ void _initSettings() {
   }
 }
 
-void _initInstruments() async {
+_initInstruments() async {
   final box = Hive.box<String>(INSTRUMENTS_BOX);
   if (box.isEmpty) {
     final asset = await loadAsset(FILE_INSTRUMENTS);

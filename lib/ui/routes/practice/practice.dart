@@ -105,7 +105,7 @@ class InstrumentSelectionCard extends HookWidget {
     );
   }
 
-  void _createPractice(BuildContext context) {
+  _createPractice(BuildContext context) {
     final instrument =
         context.read(selectedInstrumentsStateNotifier).firstInstrument;
     final settings = context.read(settingsStateNotifier);

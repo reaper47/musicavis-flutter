@@ -7,14 +7,10 @@ import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 import 'package:musicavis/utils/practice.dart';
 
 class ExerciseTab extends StatelessWidget {
-  final type = TabType.exercise;
   final Exercises items;
   final CrudOperations crud;
 
-  ExerciseTab(
-    this.items,
-    this.crud,
-  );
+  ExerciseTab(this.items, this.crud);
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +28,10 @@ class ExerciseTab extends StatelessWidget {
               caption: 'Delete',
               color: Colors.red,
               icon: Icons.delete,
-              onTap: () => crud.delete(type, index),
+              onTap: () => crud.delete(TabType.exercise, index),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
-        mini: true,
-        tooltip: 'Add an entry',
-        onPressed: () => crud.add(type),
-        child: Icon(Icons.add),
       ),
     );
   }

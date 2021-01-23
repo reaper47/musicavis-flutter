@@ -20,7 +20,7 @@ class _SimpleSliderState extends State<SimpleSlider> {
   double _current;
 
   @override
-  void initState() {
+  initState() {
     _current = widget.values.current.toDouble();
     super.initState();
   }

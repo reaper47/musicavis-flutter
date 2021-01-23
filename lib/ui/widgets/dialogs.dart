@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void showAlertDialogWithTextField(
+showAlertDialogWithTextField(
   BuildContext context,
   Map<String, String> text,
   TextEditingController controller,

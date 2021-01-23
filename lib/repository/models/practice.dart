@@ -12,24 +12,27 @@ part 'practice.g.dart';
 @HiveType(typeId: 2)
 class Practice extends HiveObject {
   @HiveField(0)
-  String instrument;
+  int id;
 
   @HiveField(1)
-  List<String> goals;
+  String instrument;
 
   @HiveField(2)
-  HiveList<Exercise> exercises;
+  List<String> goals;
 
   @HiveField(3)
-  List<String> positives;
+  HiveList<Exercise> exercises;
 
   @HiveField(4)
-  List<String> improvements;
+  List<String> positives;
 
   @HiveField(5)
-  String notes;
+  List<String> improvements;
 
   @HiveField(6)
+  String notes;
+
+  @HiveField(7)
   DateTime datetime;
 
   Practice({
@@ -43,6 +46,7 @@ class Practice extends HiveObject {
   });
 
   Practice.create(String instrument) {
+    id = Hive.box<Practice>(PRACTICES_BOX).length;
     this.instrument = instrument;
     goals = [''];
     exercises =
@@ -54,7 +58,15 @@ class Practice extends HiveObject {
 
   String get title => '$instrument - ${DateFormat('yMMMd').format(datetime)}';
 
-  void update(TabType type, int index, String value) {
+  savePractice(DataHolder dataHolder) {
+    final filter = FilterPractice.filter(this);
+    Hive.box<Practice>(PRACTICES_BOX).put(id, filter.practice);
+    filter.restore();
+  }
+
+  deletePractice() => Hive.box<Practice>(PRACTICES_BOX).delete(id);
+
+  update(TabType type, int index, String value) {
     switch (type) {
       case TabType.goal:
         goals[index] = value;
@@ -76,7 +88,7 @@ class Practice extends HiveObject {
     }
   }
 
-  void updateAll(TabType type, DataHolder data) {
+  updateAll(TabType type, DataHolder data) {
     switch (type) {
       case TabType.goal:
         goals = List.from(data.goals);
@@ -100,7 +112,7 @@ class Practice extends HiveObject {
     }
   }
 
-  void add(String item, TabType type) {
+  add(String item, TabType type) {
     switch (type) {
       case TabType.goal:
         _addItem(item, goals);
@@ -119,7 +131,7 @@ class Practice extends HiveObject {
     }
   }
 
-  void _addItem(String item, List<String> items) {
+  _addItem(String item, List<String> items) {
     if (!items.contains('')) {
       List<String> original = List.from(items);
       items
@@ -148,7 +160,10 @@ class Practice extends HiveObject {
     return exerciseInBox.first;
   }
 
-  void deleteItem(int index, TabType type) {
+  refreshExercises(DataHolder dataHolder) =>
+      exercises.asMap().forEach((index, x) => dataHolder.refresh(index, x));
+
+  deleteItem(int index, TabType type) {
     switch (type) {
       case TabType.goal:
         _deleteItem(index, goals);
@@ -167,7 +182,7 @@ class Practice extends HiveObject {
     }
   }
 
-  void _deleteItem(int index, List<dynamic> items) {
+  _deleteItem(int index, List<dynamic> items) {
     if (items.length == 1) {
       (items[0] is String) ? items[0] = '' : items[0].name = '';
     } else {
@@ -177,6 +192,7 @@ class Practice extends HiveObject {
 
   @override
   String toString() =>
-      'Practice { $instrument, goals: $goals, exercises: $exercises, positives: $positives, '
-      'improvements: $improvements, notes: $notes, datetime: $datetime }';
+      'Practice { id: $id, $instrument, goals: $goals, exercises: $exercises, '
+      'positives: $positives, improvements: $improvements, notes: $notes, '
+      'datetime: $datetime }';
 }
