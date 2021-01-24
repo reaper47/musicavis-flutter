@@ -113,6 +113,7 @@ class PracticeDetailsRoute extends HookWidget {
         message: 'Practice has been saved.',
         duration: Duration(milliseconds: 2225),
       )..show(context);
+      FocusScope.of(context).requestFocus(FocusNode());
     } else {
       Navigator.of(context).pop();
     }
