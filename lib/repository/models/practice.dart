@@ -36,6 +36,7 @@ class Practice extends HiveObject {
   DateTime datetime;
 
   Practice({
+    this.id,
     this.instrument,
     this.goals,
     this.exercises,
@@ -54,6 +55,18 @@ class Practice extends HiveObject {
     positives = [''];
     improvements = [''];
     datetime = DateTime.now();
+  }
+
+  Practice.fetch(int id) {
+    final practice = Hive.box<Practice>(PRACTICES_BOX).get(id);
+    this.id = practice.id;
+    instrument = practice.instrument;
+    goals = practice.goals;
+    exercises = practice.exercises;
+    positives = practice.positives;
+    improvements = practice.improvements;
+    notes = practice.notes;
+    datetime = practice.datetime;
   }
 
   String get title => '$instrument - ${DateFormat('yMMMd').format(datetime)}';

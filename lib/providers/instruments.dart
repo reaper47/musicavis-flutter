@@ -5,29 +5,26 @@ import 'package:musicavis/repository/boxes.dart';
 import 'package:musicavis/utils/constants.dart';
 import 'package:musicavis/utils/extensions.dart';
 
-final instrumentStateNotifier =
-    StateNotifierProvider((ref) => InstrumentList(getInstrumentItems()));
-
-List<InstrumentItem> getInstrumentItems() {
-  final _instrumentsBox = Hive.box<String>(INSTRUMENTS_BOX);
-  final _selectedItems =
-      Hive.box(SETTINGS_BOX).get(SETTINGS_INSTRUMENTS_SELECTED_KEY);
-
-  return [
-    for (var x in _instrumentsBox.toMap().entries)
-      InstrumentItem(
-        id: x.key,
-        name: x.value,
-        isSelected: _selectedItems.contains(x.key),
-      )
-  ];
-}
+final instrumentsProvider = StateNotifierProvider((_) => InstrumentList());
 
 class InstrumentList extends StateNotifier<List<InstrumentItem>> {
   final _instrumentsBox = Hive.box<String>(INSTRUMENTS_BOX);
   final _settingsBox = Hive.box(SETTINGS_BOX);
 
-  InstrumentList(List<InstrumentItem> items) : super(items);
+  InstrumentList() : super([]) {
+    final _instrumentsBox = Hive.box<String>(INSTRUMENTS_BOX);
+    final _selectedItems =
+        Hive.box(SETTINGS_BOX).get(SETTINGS_INSTRUMENTS_SELECTED_KEY);
+
+    state = [
+      for (var x in _instrumentsBox.toMap().entries)
+        InstrumentItem(
+          id: x.key,
+          name: x.value,
+          isSelected: _selectedItems.contains(x.key),
+        )
+    ];
+  }
 
   add(String name) {
     if (_instrumentsBox.get(name.toLowerCase()) == null) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 
-import 'package:musicavis/providers/repository.dart';
+import 'package:musicavis/providers/instruments.dart';
 import 'package:musicavis/providers/selectedInstrument.dart';
 import 'package:musicavis/providers/theme.dart';
 import 'package:musicavis/ui/widgets/dialogs.dart';
@@ -13,7 +13,7 @@ class InstrumentListRoute extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final instruments = useProvider(instrumentStateNotifier.state);
+    final instruments = useProvider(instrumentsProvider.state);
     final selectedInstrumentsProvider =
         useProvider(selectedInstrumentsStateNotifier);
 
@@ -53,7 +53,7 @@ class InstrumentListRoute extends HookWidget {
                 selectedInstrumentsProvider.ids.contains(instrument.id),
               ),
               onTap: () {
-                context.read(instrumentStateNotifier).toggle(instrument.id);
+                context.read(instrumentsProvider).toggle(instrument.id);
                 selectedInstrumentsProvider.setSelectedInstrument(null);
               },
             )
@@ -63,7 +63,7 @@ class InstrumentListRoute extends HookWidget {
   }
 
   _addInstrument(BuildContext context, String name) {
-    context.read(instrumentStateNotifier).add(name);
+    context.read(instrumentsProvider).add(name);
     Navigator.of(context).pop();
   }
 }

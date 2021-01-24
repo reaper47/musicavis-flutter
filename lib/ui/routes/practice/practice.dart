@@ -8,6 +8,7 @@ import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/providers/selectedInstrument.dart';
 import 'package:musicavis/providers/settings.dart';
 import 'package:musicavis/providers/theme.dart';
+import 'package:musicavis/repository/models/practice.dart';
 import 'package:musicavis/ui/routes/all.dart';
 
 class PracticeRoute extends HookWidget {
@@ -106,13 +107,13 @@ class InstrumentSelectionCard extends HookWidget {
   }
 
   _createPractice(BuildContext context) {
-    final instrument =
-        context.read(selectedInstrumentsStateNotifier).firstInstrument;
-    final settings = context.read(settingsStateNotifier);
-    context.read(practiceStateNotifier).create(instrument, settings);
-
+    final name = context.read(selectedInstrumentsStateNotifier).firstInstrument;
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => PracticeDetailsRoute()),
+      MaterialPageRoute(
+        builder: (_) => PracticeDetailsRoute(
+          StateNotifierProvider((_) => PracticeProvider(Practice.create(name))),
+        ),
+      ),
     );
   }
 }

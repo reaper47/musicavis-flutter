@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
-import 'package:musicavis/providers/practice.dart';
 
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 import 'package:musicavis/utils/themes.dart';
@@ -13,20 +11,20 @@ StatelessWidget makeTitle(int index, String title, bool isEnabled) =>
 class TitleEnabled extends HookWidget {
   final int index;
   final String title;
+  final Function updateItem;
+  final Function addItem;
 
-  TitleEnabled(this.index, this.title);
+  TitleEnabled(this.index, this.title, {this.updateItem, this.addItem});
 
   @override
   Widget build(BuildContext context) {
-    final practice = useProvider(practiceStateNotifier);
-
     return TextField(
       controller: TextEditingController(text: title),
       textInputAction: TextInputAction.done,
       keyboardType: TextInputType.text,
       style: TextStyle(fontSize: defaultFontSize),
-      onChanged: (value) => practice.updateItem(TabType.exercise, index, value),
-      onEditingComplete: () => practice.addItem(TabType.exercise),
+      onChanged: (value) => updateItem(TabType.exercise, index, value),
+      onEditingComplete: () => addItem(TabType.exercise),
       decoration: InputDecoration(
         hintText: captionTabType(TabType.exercise),
       ),

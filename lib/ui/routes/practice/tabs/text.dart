@@ -7,9 +7,13 @@ import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 
 class TextTab extends HookWidget {
+  final StateNotifierProvider<PracticeProvider> provider;
+
+  TextTab(this.provider);
+
   @override
   Widget build(BuildContext context) {
-    final notes = useProvider(practiceStateNotifier.state).notes;
+    final notes = useProvider(provider.state).notes;
 
     return Card(
       child: Container(
@@ -22,9 +26,8 @@ class TextTab extends HookWidget {
           autofocus: false,
           autocorrect: true,
           decoration: InputDecoration(hintText: 'Notes on the practice...'),
-          onChanged: (x) => context
-              .read(practiceStateNotifier)
-              .updateItem(TabType.notes, -1, x),
+          onChanged: (x) =>
+              context.read(provider).updateItem(TabType.notes, -1, x),
         ),
       ),
     );

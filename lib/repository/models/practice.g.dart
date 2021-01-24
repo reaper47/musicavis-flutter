@@ -17,6 +17,7 @@ class PracticeAdapter extends TypeAdapter<Practice> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Practice(
+      id: fields[0] as int,
       instrument: fields[1] as String,
       goals: (fields[2] as List)?.cast<String>(),
       exercises: (fields[3] as HiveList)?.castHiveList(),
@@ -24,7 +25,7 @@ class PracticeAdapter extends TypeAdapter<Practice> {
       improvements: (fields[5] as List)?.cast<String>(),
       notes: fields[6] as String,
       datetime: fields[7] as DateTime,
-    )..id = fields[0] as int;
+    );
   }
 
   @override

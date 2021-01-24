@@ -14,12 +14,14 @@ enum PopOptions {
 }
 
 class PracticeDetailsRoute extends HookWidget {
-  const PracticeDetailsRoute({Key key}) : super(key: key);
+  final StateNotifierProvider<PracticeProvider> provider;
+
+  const PracticeDetailsRoute(this.provider, {key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    useProvider(practiceStateNotifier.state);
-    final practice = useProvider(practiceStateNotifier);
+    useProvider(provider.state);
+    final practice = useProvider(provider);
     final crud = practice.crud;
 
     return DefaultTabController(
@@ -66,7 +68,7 @@ class PracticeDetailsRoute extends HookWidget {
               default:
                 return Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: TextTab(),
+                  child: TextTab(provider),
                 );
             }
           }).toList(),
@@ -104,7 +106,7 @@ class PracticeDetailsRoute extends HookWidget {
   }
 
   _save(BuildContext context, {bool popContext = false}) {
-    context.read(practiceStateNotifier).save();
+    context.read(provider).save();
 
     if (!popContext) {
       FlushbarHelper.createSuccess(
@@ -117,7 +119,7 @@ class PracticeDetailsRoute extends HookWidget {
   }
 
   _delete(BuildContext context) {
-    context.read(practiceStateNotifier).delete();
+    context.read(provider).delete();
 
     Navigator.of(context).pop();
     Navigator.of(context).pop();

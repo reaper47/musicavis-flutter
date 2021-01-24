@@ -5,12 +5,14 @@ import 'package:musicavis/repository/models/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 import 'package:musicavis/utils/practice/index.dart';
 
-final practiceStateNotifier = StateNotifierProvider((_) => PracticeProvider());
-
 class PracticeProvider extends StateNotifier<Practice> {
   DataHolder dataHolder;
 
-  PracticeProvider([Practice practice]) : super(practice ?? null);
+  PracticeProvider(Practice practice) : super(practice) {
+    dataHolder = DataHolder.init(
+      exercises: Exercises.create(practice.exercises),
+    );
+  }
 
   // Getters
   CrudOperations get crud => CrudOperations(
@@ -33,7 +35,7 @@ class PracticeProvider extends StateNotifier<Practice> {
   create(String instrument, SettingsState settings) {
     final practice = Practice.create(instrument);
     dataHolder = DataHolder.init(
-      exercises: Exercises.create(practice.exercises, settings),
+      exercises: Exercises.create(practice.exercises),
     );
     state = practice;
   }
@@ -43,7 +45,9 @@ class PracticeProvider extends StateNotifier<Practice> {
     state.savePractice(dataHolder);
   }
 
-  delete() => state.deletePractice();
+  delete() {
+    state.deletePractice();
+  }
 
   update(TabType type, int index, String value) =>
       state.update(type, index, value);

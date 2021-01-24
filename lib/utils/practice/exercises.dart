@@ -1,10 +1,8 @@
-import 'package:musicavis/providers/settings.dart';
 import 'package:musicavis/repository/models/exercise.dart';
+import 'package:musicavis/repository/wrappers.dart';
 import 'package:musicavis/utils/practice/index.dart';
 
 class Exercises {
-  final SettingsState settings;
-
   List<ExerciseDao> exercises;
   List<Values> bpmStartRanges;
   List<Values> bpmEndRanges;
@@ -14,7 +12,9 @@ class Exercises {
   int minutesMax;
   List<bool> isEnabled;
 
-  Exercises.create(List<Exercise> exercises, this.settings) {
+  Exercises.create(List<Exercise> exercises) {
+    final settings = SettingsBox();
+
     final bpms = settings.bpmRange;
     final midBpm = (bpms.max + bpms.min) ~/ 2;
     initValues = Values(bpms.min, midBpm, bpms.max);
