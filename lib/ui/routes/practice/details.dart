@@ -58,13 +58,19 @@ class PracticeDetailsRoute extends HookWidget {
           children: tabs.map((x) {
             switch (x.tabType) {
               case TabType.goal:
-                return ListTab(x.tabType, practice.goals, crud);
+                final n = practice.goals.length;
+                final nodes = List<FocusNode>.filled(n, null, growable: true);
+                return ListTab(x.tabType, practice.goals, crud, nodes);
               case TabType.exercise:
                 return ExerciseTab(practice.dataHolder.exercises, crud);
               case TabType.improvement:
-                return ListTab(x.tabType, practice.improvements, crud);
+                final n = practice.improvements.length;
+                final nodes = List<FocusNode>.filled(n, null, growable: true);
+                return ListTab(x.tabType, practice.improvements, crud, nodes);
               case TabType.positive:
-                return ListTab(x.tabType, practice.positives, crud);
+                final n = practice.positives.length;
+                final nodes = List<FocusNode>.filled(n, null, growable: true);
+                return ListTab(x.tabType, practice.positives, crud, nodes);
               default:
                 return Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -121,6 +127,7 @@ class PracticeDetailsRoute extends HookWidget {
 
   _delete(BuildContext context) {
     context.read(provider).delete();
+    FocusScope.of(context).requestFocus(FocusNode());
 
     Navigator.of(context).pop();
     Navigator.of(context).pop();

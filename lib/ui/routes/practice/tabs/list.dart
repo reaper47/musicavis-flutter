@@ -10,8 +10,13 @@ class ListTab extends StatelessWidget {
   final TabType type;
   final List<dynamic> items;
   final CrudOperations crud;
+  final List<FocusNode> nodes;
 
-  ListTab(this.type, this.items, this.crud);
+  ListTab(this.type, this.items, this.crud, this.nodes) {
+    if (items.length > 1) {
+      nodes.last = FocusNode()..requestFocus();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +46,11 @@ class ListTab extends StatelessWidget {
                   hintText: captionTabType(type),
                 ),
                 onChanged: (value) => crud.update(type, index, value),
-                onEditingComplete: () => crud.add(type),
+                onEditingComplete: () {
+                  nodes[index]?.unfocus();
+                  crud.add(type);
+                },
+                focusNode: nodes[index],
               ),
             ),
           ),
