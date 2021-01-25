@@ -15,6 +15,21 @@ class DataHolder {
     improvements = [''];
   }
 
+  bool isEligibleForNewItem(TabType type) {
+    switch (type) {
+      case TabType.goal:
+        return !goals.contains('');
+      case TabType.exercise:
+        return !exercises.exercises.any((x) => x.name == '');
+      case TabType.positive:
+        return !positives.contains('');
+      case TabType.improvement:
+        return !improvements.contains('');
+      default:
+        return false;
+    }
+  }
+
   addEntry(TabType type) {
     switch (type) {
       case TabType.goal:

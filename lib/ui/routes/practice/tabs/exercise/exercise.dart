@@ -21,7 +21,7 @@ class ExerciseTab extends StatelessWidget {
           actionPane: SlidableDrawerActionPane(),
           actionExtentRatio: 0.25,
           child: Container(
-            child: ExerciseItem(index, items),
+            child: ExerciseItem(index, items, crud),
           ),
           secondaryActions: [
             IconSlideAction(

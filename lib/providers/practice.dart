@@ -54,9 +54,11 @@ class PracticeProvider extends StateNotifier<Practice> {
 
   // Crud operations on items
   addItem(TabType type) {
-    state.updateAll(type, dataHolder);
-    dataHolder.addEntry(type);
-    state = state..add('', type);
+    if (dataHolder.isEligibleForNewItem(type)) {
+      state.updateAll(type, dataHolder);
+      dataHolder.addEntry(type);
+      state = state..add('', type);
+    }
   }
 
   updateItem(TabType type, int index, String value) {
