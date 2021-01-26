@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/all.dart';
 
 import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
+import 'package:musicavis/utils/practice/crud.dart';
 
 enum PopOptions {
   Save,
@@ -15,6 +16,7 @@ enum PopOptions {
 
 class PracticeDetailsRoute extends HookWidget {
   final StateNotifierProvider<PracticeProvider> provider;
+  final isPopAction = false;
 
   const PracticeDetailsRoute(this.provider, {key}) : super(key: key);
 
@@ -36,9 +38,13 @@ class PracticeDetailsRoute extends HookWidget {
           actions: [
             PopupMenuButton(
               onSelected: (value) => _popMenuHandler(context, value),
-              itemBuilder: (context) => EnumToString.toList(PopOptions.values)
-                  .map((x) => PopupMenuItem(value: x, child: Text(x)))
-                  .toList(),
+              itemBuilder: (context) {
+                context.read(provider).popAction = true;
+                return EnumToString.toList(PopOptions.values)
+                    .map((x) => PopupMenuItem(value: x, child: Text(x)))
+                    .toList();
+              },
+              onCanceled: () => context.read(provider).popAction = true,
             )
           ],
           centerTitle: true,
@@ -55,32 +61,45 @@ class PracticeDetailsRoute extends HookWidget {
           ),
         ),
         body: TabBarView(
-          children: tabs.map((x) {
-            switch (x.tabType) {
-              case TabType.goal:
-                final n = practice.goals.length;
-                final nodes = List<FocusNode>.filled(n, null, growable: true);
-                return ListTab(x.tabType, practice.goals, crud, nodes);
-              case TabType.exercise:
-                return ExerciseTab(practice.dataHolder.exercises, crud);
-              case TabType.improvement:
-                final n = practice.improvements.length;
-                final nodes = List<FocusNode>.filled(n, null, growable: true);
-                return ListTab(x.tabType, practice.improvements, crud, nodes);
-              case TabType.positive:
-                final n = practice.positives.length;
-                final nodes = List<FocusNode>.filled(n, null, growable: true);
-                return ListTab(x.tabType, practice.positives, crud, nodes);
-              default:
-                return Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: TextTab(provider),
-                );
-            }
-          }).toList(),
+          children: _createTabWidgets(context, practice, crud),
         ),
       ),
     );
+  }
+
+  List<Widget> _createTabWidgets(
+      BuildContext context, PracticeProvider practice, CrudOperations crud) {
+    final isPopAction = context.read(provider).isPopAction;
+
+    final widgets = tabs.map((x) {
+      switch (x.tabType) {
+        case TabType.goal:
+          final items = practice.goals;
+          final n = items.length;
+          final nodes = List<FocusNode>.filled(n, null, growable: true);
+          return ListTab(x.tabType, items, crud, nodes, isPopAction);
+        case TabType.exercise:
+          return ExerciseTab(practice.dataHolder.exercises, crud);
+        case TabType.improvement:
+          final items = practice.improvements;
+          final n = items.length;
+          final nodes = List<FocusNode>.filled(n, null, growable: true);
+          return ListTab(x.tabType, items, crud, nodes, isPopAction);
+        case TabType.positive:
+          final items = practice.positives;
+          final n = items.length;
+          final nodes = List<FocusNode>.filled(n, null, growable: true);
+          return ListTab(x.tabType, items, crud, nodes, isPopAction);
+        default:
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: TextTab(provider),
+          );
+      }
+    });
+
+    context.read(provider).popAction = false;
+    return widgets.toList();
   }
 
   _popMenuHandler(BuildContext context, String value) {

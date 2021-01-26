@@ -11,9 +11,10 @@ class ListTab extends StatelessWidget {
   final List<dynamic> items;
   final CrudOperations crud;
   final List<FocusNode> nodes;
+  final bool isPopAction;
 
-  ListTab(this.type, this.items, this.crud, this.nodes) {
-    if (items.length > 1) {
+  ListTab(this.type, this.items, this.crud, this.nodes, this.isPopAction) {
+    if (!isPopAction && items.length > 1) {
       nodes.last = FocusNode()..requestFocus();
     }
   }

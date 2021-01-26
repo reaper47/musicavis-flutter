@@ -7,6 +7,7 @@ import 'package:musicavis/utils/practice/index.dart';
 
 class PracticeProvider extends StateNotifier<Practice> {
   DataHolder dataHolder;
+  bool isPopAction = false;
 
   PracticeProvider(Practice practice) : super(practice) {
     dataHolder = DataHolder.init(
@@ -30,6 +31,8 @@ class PracticeProvider extends StateNotifier<Practice> {
   List<String> get improvements => state.improvements;
 
   String get notes => state.notes;
+
+  set popAction(bool pop) => isPopAction = pop;
 
   // Crud operations on practice
   create(String instrument, SettingsState settings) {
