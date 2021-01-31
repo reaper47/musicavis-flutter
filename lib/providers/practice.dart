@@ -12,8 +12,8 @@ class PracticeProvider extends StateNotifier<Practice> {
   DataHolder dataHolder;
   Map<TabType, List<FocusNode>> nodes;
 
-  PracticeProvider(Practice practice) : super(practice) {
-    dataHolder = DataHolder.from(practice);
+  PracticeProvider(Practice practice, bool isFromPractice) : super(practice) {
+    dataHolder = DataHolder.from(practice, isFromPractice);
     nodes = {
       TabType.goal: makeNodes(practice.goals.length),
       TabType.exercise: makeNodes(practice.exercises.length),
@@ -40,9 +40,9 @@ class PracticeProvider extends StateNotifier<Practice> {
   String get notes => state.notes;
 
   // Crud operations on practice
-  create(String instrument, SettingsState settings) {
+  void create(String instrument, SettingsState settings) {
     final practice = Practice.create(instrument);
-    dataHolder = DataHolder.from(practice);
+    dataHolder = DataHolder.from(practice, true);
     nodes = {
       TabType.goal: [FocusNode()],
       TabType.exercise: [FocusNode()],
@@ -52,20 +52,20 @@ class PracticeProvider extends StateNotifier<Practice> {
     state = practice;
   }
 
-  save() {
+  void save() {
     state.refreshExercises(dataHolder);
     state.savePractice(dataHolder);
   }
 
-  delete() {
+  void delete() {
     state.deletePractice();
   }
 
-  update(TabType type, int index, String value) =>
+  void update(TabType type, int index, String value) =>
       state.update(type, index, value);
 
   // Crud operations on items
-  addItem(TabType type) {
+  void addItem(TabType type) {
     if (dataHolder.isEligibleForNewItem(type)) {
       state.updateAll(type, dataHolder);
       dataHolder.addEntry(type);
@@ -74,7 +74,7 @@ class PracticeProvider extends StateNotifier<Practice> {
     }
   }
 
-  updateItem(TabType type, int index, String value) {
+  void updateItem(TabType type, int index, String value) {
     switch (type) {
       case TabType.goal:
         dataHolder.goals[index] = value;
@@ -95,7 +95,7 @@ class PracticeProvider extends StateNotifier<Practice> {
     }
   }
 
-  deleteItem(TabType type, int index) {
+  void deleteItem(TabType type, int index) {
     dataHolder.deleteItem(type, index);
     state = state..deleteItem(index, type);
   }

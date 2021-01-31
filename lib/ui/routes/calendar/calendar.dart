@@ -30,7 +30,6 @@ class _CalendarRouteState extends State<CalendarRoute>
       vsync: this,
       duration: const Duration(milliseconds: 400),
     )..forward();
-
     super.initState();
   }
 
@@ -141,7 +140,9 @@ class _CalendarRouteState extends State<CalendarRoute>
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => PracticeDetailsRoute(
-          StateNotifierProvider((_) => PracticeProvider(Practice.fetch(id))),
+          StateNotifierProvider(
+            (_) => PracticeProvider(Practice.fetch(id), true),
+          ),
         ),
       ),
     );

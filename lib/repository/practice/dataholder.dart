@@ -9,9 +9,9 @@ class DataHolder {
   List<String> positives;
   List<String> improvements;
 
-  DataHolder.from(Practice practice) {
+  DataHolder.from(Practice practice, bool isFromCalendar) {
     goals = List.from(practice.goals);
-    exercises = Exercises.create(practice.exercises);
+    exercises = Exercises.create(practice.exercises, isFromCalendar);
     positives = List.from(practice.positives);
     improvements = List.from(practice.improvements);
   }
@@ -37,7 +37,7 @@ class DataHolder {
     return !hasEmptyValue && !hasDuplicate;
   }
 
-  addEntry(TabType type) {
+  void addEntry(TabType type) {
     switch (type) {
       case TabType.goal:
         goals.add('');
@@ -55,7 +55,7 @@ class DataHolder {
     }
   }
 
-  deleteItem(TabType type, int index) {
+  void deleteItem(TabType type, int index) {
     switch (type) {
       case TabType.goal:
         goals.removeAt(index);
@@ -73,7 +73,7 @@ class DataHolder {
     }
   }
 
-  refresh(int index, Exercise exercise) {
+  void refresh(int index, Exercise exercise) {
     exercise.bpmStart = exercises.bpmStartRanges[index].current;
     exercise.bpmEnd = exercises.bpmEndRanges[index].current;
     exercise.minutes = exercises.minuteRanges[index].current;

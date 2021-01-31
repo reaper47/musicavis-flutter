@@ -13,27 +13,38 @@ class Exercises {
   int minutesMax;
   List<bool> isEnabled;
 
-  Exercises.create(List<Exercise> exercises) {
+  Exercises.create(List<Exercise> exercises, isFromCalendar) {
     final settings = SettingsBox();
+    this.exercises = exercises.map((e) => ExerciseDao.from(e)).toList();
 
     final bpms = settings.bpmRange;
     final midBpm = (bpms.max + bpms.min) ~/ 2;
     initValues = Values(bpms.min, midBpm, bpms.max);
-    bpmStartRanges = exercises.map((e) => Values.from(initValues)).toList();
-    bpmEndRanges = exercises.map((e) => Values.from(initValues)).toList();
-    this.exercises = exercises.map((e) => ExerciseDao.from(e)).toList();
-
     minutesMax = settings.minutesMax;
-    minuteRanges = exercises
-        .map((e) => Values(1, (minutesMax + 1) ~/ 2, minutesMax))
-        .toList();
+
+    if (isFromCalendar) {
+      bpmStartRanges = exercises
+          .map((e) => Values.from(initValues..current = e.bpmStart))
+          .toList();
+      bpmEndRanges = exercises
+          .map((e) => Values.from(initValues..current = e.bpmEnd))
+          .toList();
+      minuteRanges =
+          exercises.map((e) => Values(1, e.minutes, minutesMax)).toList();
+    } else {
+      bpmStartRanges = exercises.map((e) => Values.from(initValues)).toList();
+      bpmEndRanges = exercises.map((e) => Values.from(initValues)).toList();
+      minuteRanges = exercises
+          .map((e) => Values(1, (minutesMax + 1) ~/ 2, minutesMax))
+          .toList();
+    }
 
     isEnabled = exercises.map((e) => true).toList();
   }
 
   int get length => exercises.length;
 
-  add() {
+  void add() {
     final bpm = bpmStartRanges[0];
     exercises.add(ExerciseDao('', bpm.min, bpm.max, minuteRanges.first.max));
     bpmStartRanges.add(Values.from(initValues));
@@ -42,7 +53,7 @@ class Exercises {
     isEnabled.add(true);
   }
 
-  refresh() {
+  void refresh() {
     for (var i = 0; i < exercises.length; i++) {
       exercises[i].bpmStart = bpmStartRanges[i].current;
       exercises[i].bpmEnd = bpmEndRanges[i].current;
@@ -50,7 +61,7 @@ class Exercises {
     }
   }
 
-  delete(int index) {
+  void delete(int index) {
     exercises.removeAt(index);
     bpmStartRanges.removeAt(index);
     bpmEndRanges.removeAt(index);
@@ -58,7 +69,7 @@ class Exercises {
     isEnabled.removeAt(index);
   }
 
-  toggleEnabled(int index) {
+  void toggleEnabled(int index) {
     isEnabled[index] = !isEnabled[index];
   }
 

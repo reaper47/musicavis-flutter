@@ -32,7 +32,7 @@ class CalendarEvents extends StateNotifier<Map<DateTime, List<CalendarEvent>>> {
     refreshMonth(first, last);
   }
 
-  refreshMonth(DateTime first, DateTime last) {
+  void refreshMonth(DateTime first, DateTime last) {
     Map<DateTime, List<CalendarEvent>> eventsMap = {};
     Hive.box<Practice>(PRACTICES_BOX)
         .values
@@ -44,7 +44,8 @@ class CalendarEvents extends StateNotifier<Map<DateTime, List<CalendarEvent>>> {
 
   CalendarEvent _toCalendarEvent(Practice practice) {
     final int totalMinutes =
-        practice.exercises.fold(0, (prev, current) => prev + current.minutes);
+        practice.exercises.fold(0, (prev, current) => prev + current.minutes) -
+            practice.exercises.last.minutes;
     final numHours = totalMinutes ~/ 60;
     final numMinutes = totalMinutes - numHours * 60;
 
@@ -58,7 +59,8 @@ class CalendarEvents extends StateNotifier<Map<DateTime, List<CalendarEvent>>> {
     );
   }
 
-  _addToMap(Map<DateTime, List<CalendarEvent>> eventsMap, CalendarEvent event) {
+  void _addToMap(
+      Map<DateTime, List<CalendarEvent>> eventsMap, CalendarEvent event) {
     if (eventsMap[event.datetime]?.isEmpty ?? true) {
       eventsMap[event.datetime] = [];
     }

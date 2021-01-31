@@ -46,12 +46,10 @@ class PracticeDetailsRoute extends HookWidget {
           title: Text(practice.title),
           bottom: TabBar(
             tabs: tabs
-                .map(
-                  (x) => Tooltip(
-                    message: x.title,
-                    child: Tab(icon: Icon(x.icon, size: 28)),
-                  ),
-                )
+                .map((x) => Tooltip(
+                      message: x.title,
+                      child: Tab(icon: Icon(x.icon, size: 28)),
+                    ))
                 .toList(),
           ),
         ),

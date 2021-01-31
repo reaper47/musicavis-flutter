@@ -17,4 +17,8 @@ class ExerciseDao {
 
   Exercise toExercise(ExerciseDao dao) =>
       Exercise(dao.name, dao.bpmStart, dao.bpmEnd, dao.minutes);
+
+  @override
+  String toString() => "ExerciseDao { name: $name, bpmStart: $bpmStart,"
+      " bpmEnd: $bpmEnd, minutes: $minutes }";
 }

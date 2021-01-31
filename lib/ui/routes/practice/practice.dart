@@ -111,7 +111,8 @@ class InstrumentSelectionCard extends HookWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => PracticeDetailsRoute(
-          StateNotifierProvider((_) => PracticeProvider(Practice.create(name))),
+          StateNotifierProvider(
+              (_) => PracticeProvider(Practice.create(name), false)),
         ),
       ),
     );
