@@ -1,18 +1,21 @@
+import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:musicavis/providers/settings.dart';
 import 'package:musicavis/repository/models/practice.dart';
+import 'package:musicavis/repository/practice/index.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
-import 'package:musicavis/utils/practice/index.dart';
 
 class PracticeProvider extends StateNotifier<Practice> {
   DataHolder dataHolder;
-  bool isPopAction = false;
+  Map<TabType, List<FocusNode>> nodes;
 
   PracticeProvider(Practice practice) : super(practice) {
     dataHolder = DataHolder.init(
       exercises: Exercises.create(practice.exercises),
     );
+    _initNodes();
   }
 
   // Getters
@@ -32,14 +35,13 @@ class PracticeProvider extends StateNotifier<Practice> {
 
   String get notes => state.notes;
 
-  set popAction(bool pop) => isPopAction = pop;
-
   // Crud operations on practice
   create(String instrument, SettingsState settings) {
     final practice = Practice.create(instrument);
     dataHolder = DataHolder.init(
       exercises: Exercises.create(practice.exercises),
     );
+    _initNodes();
     state = practice;
   }
 
@@ -60,6 +62,7 @@ class PracticeProvider extends StateNotifier<Practice> {
     if (dataHolder.isEligibleForNewItem(type)) {
       state.updateAll(type, dataHolder);
       dataHolder.addEntry(type);
+      nodes[type].add(FocusNode()..requestFocus());
       state = state..add('', type);
     }
   }
@@ -88,5 +91,15 @@ class PracticeProvider extends StateNotifier<Practice> {
   deleteItem(TabType type, int index) {
     dataHolder.deleteItem(type, index);
     state = state..deleteItem(index, type);
+  }
+
+  // Other
+  void _initNodes() {
+    nodes = {
+      TabType.goal: [FocusNode()],
+      TabType.exercise: [FocusNode()],
+      TabType.positive: [FocusNode()],
+      TabType.improvement: [FocusNode()],
+    };
   }
 }

@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_riverpod/all.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 import 'package:musicavis/utils/colors.dart';
-import 'package:musicavis/utils/practice/index.dart';
 
 class ListTab extends StatelessWidget {
   final TabType type;
-  final List<dynamic> items;
-  final CrudOperations crud;
-  final List<FocusNode> nodes;
-  final bool isPopAction;
+  final StateNotifierProvider<PracticeProvider> provider;
 
-  ListTab(this.type, this.items, this.crud, this.nodes, this.isPopAction) {
-    if (!isPopAction && items.length > 1) {
-      nodes.last = FocusNode()..requestFocus();
-    }
-  }
+  ListTab(this.type, this.provider);
 
   @override
   Widget build(BuildContext context) {
+    final practice = context.read(provider);
+    final items = _getItems(practice);
+
     return Scaffold(
       body: ListView.builder(
         itemCount: items.length,
@@ -46,12 +43,9 @@ class ListTab extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: captionTabType(type),
                 ),
-                onChanged: (value) => crud.update(type, index, value),
-                onEditingComplete: () {
-                  nodes[index]?.unfocus();
-                  crud.add(type);
-                },
-                focusNode: nodes[index],
+                onChanged: (value) => practice.crud.update(type, index, value),
+                onEditingComplete: () => practice.crud.add(type),
+                focusNode: practice.nodes[type][index],
               ),
             ),
           ),
@@ -60,11 +54,24 @@ class ListTab extends StatelessWidget {
               caption: 'Delete',
               color: Colors.red,
               icon: Icons.delete,
-              onTap: () => crud.delete(type, index),
+              onTap: () => practice.crud.delete(type, index),
             ),
           ],
         ),
       ),
     );
+  }
+
+  List<dynamic> _getItems(PracticeProvider practice) {
+    switch (type) {
+      case TabType.goal:
+        return practice.goals;
+      case TabType.improvement:
+        return practice.improvements;
+      case TabType.positive:
+        return practice.positives;
+      default:
+        return [];
+    }
   }
 }

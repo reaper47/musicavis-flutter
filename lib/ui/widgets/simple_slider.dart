@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:musicavis/utils/practice/index.dart';
+import 'package:musicavis/repository/practice/values.dart';
 import 'package:musicavis/utils/themes.dart';
 
 final smallGrey = greyTextStyle(smallFontSize);

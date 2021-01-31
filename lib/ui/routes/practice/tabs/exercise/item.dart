@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/exercise/avatar.dart';
 import 'package:musicavis/ui/routes/practice/tabs/exercise/title.dart';
+import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 import 'package:musicavis/ui/widgets/simple_slider.dart';
-import 'package:musicavis/utils/practice/index.dart';
 
 class ExerciseItem extends StatefulWidget {
   final int index;
-  final Exercises exercises;
-  final CrudOperations crud;
+  final PracticeProvider practice;
 
-  ExerciseItem(this.index, this.exercises, this.crud);
+  ExerciseItem(this.index, this.practice);
 
   @override
   _ExerciseItemState createState() => _ExerciseItemState();
@@ -19,28 +19,33 @@ class ExerciseItem extends StatefulWidget {
 class _ExerciseItemState extends State<ExerciseItem> {
   @override
   Widget build(BuildContext context) {
-    final exercise = widget.exercises.exercises[widget.index];
-    final bpmStartRange = widget.exercises.bpmStartRanges[widget.index];
-    final bpmEndRange = widget.exercises.bpmEndRanges[widget.index];
-    final minuteRange = widget.exercises.minuteRanges[widget.index];
-    final isEnabled = widget.exercises.isEnabled[widget.index];
+    final exercises = widget.practice.dataHolder.exercises;
+
+    final exercise = exercises.exercises[widget.index];
+    final bpmStartRange = exercises.bpmStartRanges[widget.index];
+    final bpmEndRange = exercises.bpmEndRanges[widget.index];
+    final minuteRange = exercises.minuteRanges[widget.index];
+    final isEnabled = exercises.isEnabled[widget.index];
 
     return ListTile(
       leading: GestureDetector(
-        onTapDown: (event) =>
-            setState(() => widget.exercises.toggleEnabled(widget.index)),
+        onTapDown: (event) {
+          setState(() => exercises.toggleEnabled(widget.index));
+        },
         child: makeAvatar(widget.index, isEnabled),
       ),
       title: Column(
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
-            child: makeTitle(
-              widget.index,
-              exercise.name,
-              widget.crud,
-              isEnabled,
-            ),
+            child: isEnabled
+                ? TitleEnabled(
+                    widget.index,
+                    exercise.name,
+                    widget.practice.crud,
+                    widget.practice.nodes[TabType.exercise][widget.index],
+                  )
+                : TitleDisabled(exercise.name),
           ),
           SimpleSlider('BPM Start', bpmStartRange, isEnabled),
           SimpleSlider('BPM End', bpmEndRange, isEnabled),

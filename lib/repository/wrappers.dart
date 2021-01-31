@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
 
 import 'package:musicavis/repository/boxes.dart';
+import 'package:musicavis/repository/practice/values.dart';
 import 'package:musicavis/utils/constants.dart';
-import 'package:musicavis/utils/practice/index.dart';
 
 class SettingsBox {
   Box box;

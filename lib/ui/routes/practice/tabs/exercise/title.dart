@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_hooks/flutter_hooks.dart';
-
+import 'package:musicavis/repository/practice/index.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
-import 'package:musicavis/utils/practice/crud.dart';
 import 'package:musicavis/utils/themes.dart';
 
-StatelessWidget makeTitle(
-        int index, String title, CrudOperations crud, bool isEnabled) =>
-    isEnabled ? TitleEnabled(index, title, crud) : TitleDisabled(title);
-
-class TitleEnabled extends HookWidget {
+class TitleEnabled extends StatelessWidget {
   final int index;
   final String title;
   final CrudOperations crud;
+  final FocusNode node;
 
-  TitleEnabled(this.index, this.title, this.crud);
+  TitleEnabled(this.index, this.title, this.crud, this.node);
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +24,7 @@ class TitleEnabled extends HookWidget {
       decoration: InputDecoration(
         hintText: captionTabType(TabType.exercise),
       ),
+      focusNode: node,
     );
   }
 }

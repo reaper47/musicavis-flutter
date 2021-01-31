@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_riverpod/all.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/exercise/item.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
-import 'package:musicavis/utils/practice/index.dart';
 
 class ExerciseTab extends StatelessWidget {
-  final Exercises items;
-  final CrudOperations crud;
+  final StateNotifierProvider<PracticeProvider> provider;
 
-  ExerciseTab(this.items, this.crud);
+  ExerciseTab(this.provider);
 
   @override
   Widget build(BuildContext context) {
+    final practice = context.read(provider);
+    final items = practice.dataHolder.exercises;
+
     return Scaffold(
       body: ListView.builder(
         itemCount: items.length,
@@ -21,14 +24,14 @@ class ExerciseTab extends StatelessWidget {
           actionPane: SlidableDrawerActionPane(),
           actionExtentRatio: 0.25,
           child: Container(
-            child: ExerciseItem(index, items, crud),
+            child: ExerciseItem(index, practice),
           ),
           secondaryActions: [
             IconSlideAction(
               caption: 'Delete',
               color: Colors.red,
               icon: Icons.delete,
-              onTap: () => crud.delete(TabType.exercise, index),
+              onTap: () => practice.crud.delete(TabType.exercise, index),
             ),
           ],
         ),

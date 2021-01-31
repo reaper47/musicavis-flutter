@@ -1,6 +1,7 @@
 import 'package:musicavis/repository/models/exercise.dart';
+import 'package:musicavis/repository/practice/index.dart';
+import 'package:musicavis/repository/practice/values.dart';
 import 'package:musicavis/repository/wrappers.dart';
-import 'package:musicavis/utils/practice/index.dart';
 
 class Exercises {
   List<ExerciseDao> exercises;
@@ -59,5 +60,12 @@ class Exercises {
 
   toggleEnabled(int index) {
     isEnabled[index] = !isEnabled[index];
+  }
+
+  bool isElgigibleToAdd() {
+    final hasEmptyName = exercises.any((x) => x.name == '');
+    final names = [for (var x in exercises) x.name];
+    final hasDuplicate = names.toSet().length != names.length;
+    return !hasEmptyName && !hasDuplicate;
   }
 }

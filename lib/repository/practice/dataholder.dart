@@ -1,6 +1,6 @@
 import 'package:musicavis/repository/models/exercise.dart';
+import 'package:musicavis/repository/practice/index.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
-import 'package:musicavis/utils/practice/index.dart';
 
 class DataHolder {
   List<String> goals;
@@ -18,16 +18,22 @@ class DataHolder {
   bool isEligibleForNewItem(TabType type) {
     switch (type) {
       case TabType.goal:
-        return !goals.contains('');
+        return _isEligibleListTabHelper(goals);
       case TabType.exercise:
-        return !exercises.exercises.any((x) => x.name == '');
+        return exercises.isElgigibleToAdd();
       case TabType.positive:
-        return !positives.contains('');
+        return _isEligibleListTabHelper(positives);
       case TabType.improvement:
-        return !improvements.contains('');
+        return _isEligibleListTabHelper(improvements);
       default:
         return false;
     }
+  }
+
+  bool _isEligibleListTabHelper(List<String> items) {
+    final hasEmptyValue = items.contains('');
+    final hasDuplicate = items.toSet().length != items.length;
+    return !hasEmptyValue && !hasDuplicate;
   }
 
   addEntry(TabType type) {
