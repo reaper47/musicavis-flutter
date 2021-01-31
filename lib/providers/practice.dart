@@ -6,16 +6,20 @@ import 'package:musicavis/providers/settings.dart';
 import 'package:musicavis/repository/models/practice.dart';
 import 'package:musicavis/repository/practice/index.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
+import 'package:musicavis/utils/widgets.dart';
 
 class PracticeProvider extends StateNotifier<Practice> {
   DataHolder dataHolder;
   Map<TabType, List<FocusNode>> nodes;
 
   PracticeProvider(Practice practice) : super(practice) {
-    dataHolder = DataHolder.init(
-      exercises: Exercises.create(practice.exercises),
-    );
-    _initNodes();
+    dataHolder = DataHolder.from(practice);
+    nodes = {
+      TabType.goal: makeNodes(practice.goals.length),
+      TabType.exercise: makeNodes(practice.exercises.length),
+      TabType.positive: makeNodes(practice.positives.length),
+      TabType.improvement: makeNodes(practice.improvements.length),
+    };
   }
 
   // Getters
@@ -38,10 +42,13 @@ class PracticeProvider extends StateNotifier<Practice> {
   // Crud operations on practice
   create(String instrument, SettingsState settings) {
     final practice = Practice.create(instrument);
-    dataHolder = DataHolder.init(
-      exercises: Exercises.create(practice.exercises),
-    );
-    _initNodes();
+    dataHolder = DataHolder.from(practice);
+    nodes = {
+      TabType.goal: [FocusNode()],
+      TabType.exercise: [FocusNode()],
+      TabType.positive: [FocusNode()],
+      TabType.improvement: [FocusNode()],
+    };
     state = practice;
   }
 
@@ -91,15 +98,5 @@ class PracticeProvider extends StateNotifier<Practice> {
   deleteItem(TabType type, int index) {
     dataHolder.deleteItem(type, index);
     state = state..deleteItem(index, type);
-  }
-
-  // Other
-  void _initNodes() {
-    nodes = {
-      TabType.goal: [FocusNode()],
-      TabType.exercise: [FocusNode()],
-      TabType.positive: [FocusNode()],
-      TabType.improvement: [FocusNode()],
-    };
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/all.dart';
 import 'package:hive/hive.dart';
 import 'package:musicavis/repository/boxes.dart';
 import 'package:musicavis/repository/models/practice.dart';
+import 'package:musicavis/utils/dates.dart';
 
 final calendarProvider = StateNotifierProvider((_) => CalendarEvents());
 
@@ -35,7 +36,7 @@ class CalendarEvents extends StateNotifier<Map<DateTime, List<CalendarEvent>>> {
     Map<DateTime, List<CalendarEvent>> eventsMap = {};
     Hive.box<Practice>(PRACTICES_BOX)
         .values
-        .where((x) => x.datetime.isAfter(first) && x.datetime.isBefore(last))
+        .where((x) => isDateBetween(first, x.datetime, last))
         .map(_toCalendarEvent)
         .forEach((event) => _addToMap(eventsMap, event));
     state = eventsMap;

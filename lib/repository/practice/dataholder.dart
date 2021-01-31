@@ -1,4 +1,5 @@
 import 'package:musicavis/repository/models/exercise.dart';
+import 'package:musicavis/repository/models/practice.dart';
 import 'package:musicavis/repository/practice/index.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 
@@ -8,11 +9,11 @@ class DataHolder {
   List<String> positives;
   List<String> improvements;
 
-  DataHolder.init({Exercises exercises}) {
-    goals = [''];
-    this.exercises = exercises;
-    positives = [''];
-    improvements = [''];
+  DataHolder.from(Practice practice) {
+    goals = List.from(practice.goals);
+    exercises = Exercises.create(practice.exercises);
+    positives = List.from(practice.positives);
+    improvements = List.from(practice.improvements);
   }
 
   bool isEligibleForNewItem(TabType type) {
