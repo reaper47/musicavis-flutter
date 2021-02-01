@@ -5,6 +5,7 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 
+import 'package:musicavis/providers/calendar.dart';
 import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 
@@ -111,6 +112,7 @@ class PracticeDetailsRoute extends HookWidget {
 
   _save(BuildContext context, {bool popContext = false}) {
     context.read(provider).save();
+    context.read(calendarProvider).refresh();
 
     if (!popContext) {
       FlushbarHelper.createSuccess(
@@ -125,6 +127,7 @@ class PracticeDetailsRoute extends HookWidget {
 
   _delete(BuildContext context) {
     context.read(provider).delete();
+    context.read(calendarProvider).refresh();
     FocusScope.of(context).requestFocus(FocusNode());
 
     Navigator.of(context).pop();

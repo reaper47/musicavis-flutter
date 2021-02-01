@@ -51,7 +51,7 @@ class ShadowContainer extends StatelessWidget {
   }
 }
 
-class InstrumentSelectionCard extends HookWidget {
+class InstrumentSelectionCard extends StatelessWidget {
   const InstrumentSelectionCard({Key key}) : super(key: key);
 
   @override

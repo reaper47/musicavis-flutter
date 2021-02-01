@@ -25,12 +25,17 @@ class CalendarEvent {
 }
 
 class CalendarEvents extends StateNotifier<Map<DateTime, List<CalendarEvent>>> {
+  DateTime _first;
+  DateTime _last;
+
   CalendarEvents() : super({}) {
     final now = DateTime.now();
-    final first = DateTime(now.year, now.month, 1);
-    final last = DateTime(now.year, now.month + 1, 0);
-    refreshMonth(first, last);
+    _first = DateTime(now.year, now.month, 1);
+    _last = DateTime(now.year, now.month + 1, 0);
+    refreshMonth(_first, _last);
   }
+
+  void refresh() => refreshMonth(_first, _last);
 
   void refreshMonth(DateTime first, DateTime last) {
     Map<DateTime, List<CalendarEvent>> eventsMap = {};
@@ -39,6 +44,9 @@ class CalendarEvents extends StateNotifier<Map<DateTime, List<CalendarEvent>>> {
         .where((x) => isDateBetween(first, x.datetime, last))
         .map(_toCalendarEvent)
         .forEach((event) => _addToMap(eventsMap, event));
+
+    _first = first;
+    _last = last;
     state = eventsMap;
   }
 
