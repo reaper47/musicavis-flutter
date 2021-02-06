@@ -75,23 +75,12 @@ class PracticeProvider extends StateNotifier<Practice> {
   }
 
   void updateItem(TabType type, int index, String value) {
-    switch (type) {
-      case TabType.goal:
-        dataHolder.goals[index] = value;
-        break;
-      case TabType.exercise:
-        dataHolder.exercises.exercises[index].name = value;
-        break;
-      case TabType.positive:
-        dataHolder.positives[index] = value;
-        break;
-      case TabType.improvement:
-        dataHolder.improvements[index] = value;
-        break;
-      case TabType.notes:
-        state.update(TabType.notes, -1, value);
-        break;
-      default:
+    if (type == TabType.exercise) {
+      dataHolder.exercises.exercises[index].name = value;
+    } else if (type == TabType.notes) {
+      state.update(TabType.notes, -1, value);
+    } else {
+      dataHolder.listData[type][index] = value;
     }
   }
 

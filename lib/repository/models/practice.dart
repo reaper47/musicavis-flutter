@@ -46,6 +46,8 @@ class Practice extends HiveObject {
     this.datetime,
   });
 
+  int get practiceTime => exercises.fold(0, (prev, el) => prev + el.minutes);
+
   Practice.create(String instrument) {
     id = Hive.box<Practice>(PRACTICES_BOX).length;
     this.instrument = instrument;
@@ -104,7 +106,7 @@ class Practice extends HiveObject {
   updateAll(TabType type, DataHolder data) {
     switch (type) {
       case TabType.goal:
-        goals = List.from(data.goals);
+        goals = List.from(data.listData[type]);
         break;
       case TabType.exercise:
         for (var i = 0; i < exercises.length; i++) {
@@ -115,10 +117,10 @@ class Practice extends HiveObject {
         }
         break;
       case TabType.improvement:
-        improvements = List.from(data.improvements);
+        improvements = List.from(data.listData[type]);
         break;
       case TabType.positive:
-        positives = List.from(data.positives);
+        positives = List.from(data.listData[type]);
         break;
       default:
         break;

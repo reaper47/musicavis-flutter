@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 
 import 'package:musicavis/providers/calendar.dart';
 import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
-
-enum PopOptions {
-  Save,
-  Delete,
-}
+import 'package:musicavis/utils/enums.dart';
+import 'package:musicavis/utils/extensions.dart';
 
 class PracticeDetailsRoute extends HookWidget {
   final StateNotifierProvider<PracticeProvider> provider;
@@ -36,11 +32,9 @@ class PracticeDetailsRoute extends HookWidget {
           actions: [
             PopupMenuButton(
               onSelected: (value) => _popMenuHandler(context, value),
-              itemBuilder: (context) {
-                return EnumToString.toList(PopOptions.values)
-                    .map((x) => PopupMenuItem(value: x, child: Text(x)))
-                    .toList();
-              },
+              itemBuilder: (context) => PopOption.values
+                  .map((x) => PopupMenuItem(value: x.name, child: Text(x.name)))
+                  .toList(),
             )
           ],
           centerTitle: true,
@@ -66,13 +60,11 @@ class PracticeDetailsRoute extends HookWidget {
     return tabs.map((x) {
       switch (x.tabType) {
         case TabType.goal:
+        case TabType.improvement:
+        case TabType.positive:
           return ListTab(x.tabType, provider);
         case TabType.exercise:
           return ExerciseTab(provider);
-        case TabType.improvement:
-          return ListTab(x.tabType, provider);
-        case TabType.positive:
-          return ListTab(x.tabType, provider);
         default:
           return Padding(
             padding: const EdgeInsets.all(20.0),
@@ -83,9 +75,9 @@ class PracticeDetailsRoute extends HookWidget {
   }
 
   _popMenuHandler(BuildContext context, String value) {
-    if (value == EnumToString.convertToString(PopOptions.Save)) {
+    if (value == PopOption.save.name) {
       _save(context);
-    } else if (value == EnumToString.convertToString(PopOptions.Delete)) {
+    } else if (value == PopOption.delete.name) {
       showDialog(
         context: context,
         useRootNavigator: false,

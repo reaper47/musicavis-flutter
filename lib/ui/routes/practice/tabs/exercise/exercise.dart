@@ -26,14 +26,16 @@ class ExerciseTab extends StatelessWidget {
           child: Container(
             child: ExerciseItem(index, practice),
           ),
-          secondaryActions: [
-            IconSlideAction(
-              caption: 'Delete',
-              color: Colors.red,
-              icon: Icons.delete,
-              onTap: () => practice.crud.delete(TabType.exercise, index),
-            ),
-          ],
+          secondaryActions: items.length == 1
+              ? []
+              : [
+                  IconSlideAction(
+                    caption: 'Delete',
+                    color: Colors.red,
+                    icon: Icons.delete,
+                    onTap: () => practice.crud.delete(TabType.exercise, index),
+                  ),
+                ],
         ),
       ),
     );

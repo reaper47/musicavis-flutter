@@ -4,31 +4,23 @@ import 'package:musicavis/repository/practice/index.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 
 class DataHolder {
-  List<String> goals;
+  Map<TabType, List<String>> listData;
   Exercises exercises;
-  List<String> positives;
-  List<String> improvements;
 
   DataHolder.from(Practice practice, bool isFromCalendar) {
-    goals = List.from(practice.goals);
+    listData = {
+      TabType.goal: List.from(practice.goals),
+      TabType.positive: List.from(practice.positives),
+      TabType.improvement: List.from(practice.improvements),
+    };
     exercises = Exercises.create(practice.exercises, isFromCalendar);
-    positives = List.from(practice.positives);
-    improvements = List.from(practice.improvements);
   }
 
   bool isEligibleForNewItem(TabType type) {
-    switch (type) {
-      case TabType.goal:
-        return _isEligibleListTabHelper(goals);
-      case TabType.exercise:
-        return exercises.isElgigibleToAdd();
-      case TabType.positive:
-        return _isEligibleListTabHelper(positives);
-      case TabType.improvement:
-        return _isEligibleListTabHelper(improvements);
-      default:
-        return false;
+    if (type == TabType.exercise) {
+      return exercises.isElgigibleToAdd();
     }
+    return _isEligibleListTabHelper(listData[type]);
   }
 
   bool _isEligibleListTabHelper(List<String> items) {
@@ -38,38 +30,18 @@ class DataHolder {
   }
 
   void addEntry(TabType type) {
-    switch (type) {
-      case TabType.goal:
-        goals.add('');
-        break;
-      case TabType.exercise:
-        exercises.add();
-        break;
-      case TabType.positive:
-        positives.add('');
-        break;
-      case TabType.improvement:
-        improvements.add('');
-        break;
-      default:
+    if (type == TabType.exercise) {
+      exercises.add();
+    } else {
+      listData[type].add('');
     }
   }
 
   void deleteItem(TabType type, int index) {
-    switch (type) {
-      case TabType.goal:
-        goals.removeAt(index);
-        break;
-      case TabType.exercise:
-        exercises.delete(index);
-        break;
-      case TabType.positive:
-        positives.removeAt(index);
-        break;
-      case TabType.improvement:
-        improvements.removeAt(index);
-        break;
-      default:
+    if (type == TabType.exercise) {
+      exercises.delete(index);
+    } else {
+      listData[type].removeAt(index);
     }
   }
 

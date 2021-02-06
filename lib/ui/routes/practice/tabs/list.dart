@@ -21,42 +21,48 @@ class ListTab extends StatelessWidget {
     return Scaffold(
       body: ListView.builder(
         itemCount: items.length,
-        itemBuilder: (context, index) => Slidable(
-          actionPane: SlidableDrawerActionPane(),
-          actionExtentRatio: 0.25,
-          child: Container(
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor: rainbow[index % rainbow.length],
-                child: Text((index + 1).toString()),
-                foregroundColor: Colors.white,
-              ),
-              title: TextField(
-                controller: TextEditingController.fromValue(
-                  TextEditingValue(
-                    text: items[index],
-                    selection: TextSelection.collapsed(
-                      offset: items[index].length,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Slidable(
+            actionPane: SlidableDrawerActionPane(),
+            actionExtentRatio: 0.25,
+            child: Container(
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: rainbow[index % rainbow.length],
+                  child: Text((index + 1).toString()),
+                  foregroundColor: Colors.white,
+                ),
+                title: TextField(
+                  controller: TextEditingController.fromValue(
+                    TextEditingValue(
+                      text: items[index],
+                      selection: TextSelection.collapsed(
+                        offset: items[index].length,
+                      ),
                     ),
                   ),
+                  decoration: InputDecoration(
+                    hintText: captionTabType(type),
+                  ),
+                  onChanged: (value) =>
+                      practice.crud.update(type, index, value),
+                  onEditingComplete: () => practice.crud.add(type),
+                  focusNode: practice.nodes[type][index],
                 ),
-                decoration: InputDecoration(
-                  hintText: captionTabType(type),
-                ),
-                onChanged: (value) => practice.crud.update(type, index, value),
-                onEditingComplete: () => practice.crud.add(type),
-                focusNode: practice.nodes[type][index],
               ),
             ),
+            secondaryActions: items.length == 1
+                ? []
+                : [
+                    IconSlideAction(
+                      caption: 'Delete',
+                      color: Colors.red,
+                      icon: Icons.delete,
+                      onTap: () => practice.crud.delete(type, index),
+                    )
+                  ],
           ),
-          secondaryActions: [
-            IconSlideAction(
-              caption: 'Delete',
-              color: Colors.red,
-              icon: Icons.delete,
-              onTap: () => practice.crud.delete(type, index),
-            ),
-          ],
         ),
       ),
     );

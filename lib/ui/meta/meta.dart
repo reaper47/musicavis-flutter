@@ -17,10 +17,16 @@ class MetaRoute extends HookWidget {
     final routeIndex = useProvider(routeIndexProvider).state;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(routeTitle),
-        actions: _getActions(context, routeTitle),
-      ),
+      appBar: routeTitle == ROUTE_PROFILE_TITLE
+          ? AppBar(actions: [
+              IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () =>
+                    Navigator.of(context).pushNamed(ROUTE_PROFILE_SETTINGS),
+                tooltip: 'Settings',
+              )
+            ])
+          : null,
       body: IndexedStack(
         index: routeIndex,
         children: routes.values
@@ -49,21 +55,5 @@ class MetaRoute extends HookWidget {
             .toList(),
       ),
     );
-  }
-
-  List<Widget> _getActions(BuildContext context, String title) {
-    switch (title) {
-      case ROUTE_PROFILE_TITLE:
-        return [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () =>
-                Navigator.of(context).pushNamed(ROUTE_PROFILE_SETTINGS),
-            tooltip: 'Settings',
-          )
-        ];
-      default:
-        return [];
-    }
   }
 }

@@ -44,11 +44,9 @@ class _CalendarRouteState extends State<CalendarRoute>
   Widget build(BuildContext context) {
     _events = useProvider(calendarProvider.state);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Calendar'),
-      ),
-      body: Column(
+    return Padding(
+      padding: const EdgeInsets.only(top: 48.0),
+      child: Column(
         children: [
           _buildCalendar(),
           const SizedBox(height: 8.0),
