@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
-
 import 'package:musicavis/providers/calendar.dart';
+import 'package:musicavis/providers/graphics.dart';
 import 'package:musicavis/providers/practice.dart';
+import 'package:musicavis/providers/statistics.dart';
 import 'package:musicavis/ui/routes/practice/tabs/index.dart';
 import 'package:musicavis/utils/enums.dart';
 import 'package:musicavis/utils/extensions.dart';
@@ -74,7 +74,7 @@ class PracticeDetailsRoute extends HookWidget {
     }).toList();
   }
 
-  _popMenuHandler(BuildContext context, String value) {
+  void _popMenuHandler(BuildContext context, String value) {
     if (value == PopOption.save.name) {
       _save(context);
     } else if (value == PopOption.delete.name) {
@@ -102,9 +102,9 @@ class PracticeDetailsRoute extends HookWidget {
     }
   }
 
-  _save(BuildContext context, {bool popContext = false}) {
+  void _save(BuildContext context, {bool popContext = false}) {
     context.read(provider).save();
-    context.read(calendarProvider).refresh();
+    _refreshProviders(context);
 
     if (!popContext) {
       FlushbarHelper.createSuccess(
@@ -117,9 +117,9 @@ class PracticeDetailsRoute extends HookWidget {
     }
   }
 
-  _delete(BuildContext context) {
+  void _delete(BuildContext context) {
     context.read(provider).delete();
-    context.read(calendarProvider).refresh();
+    _refreshProviders(context);
     FocusScope.of(context).requestFocus(FocusNode());
 
     Navigator.of(context).pop();
@@ -129,5 +129,11 @@ class PracticeDetailsRoute extends HookWidget {
       message: 'Practice has been deleted.',
       duration: Duration(milliseconds: 2225),
     )..show(context);
+  }
+
+  void _refreshProviders(BuildContext context) {
+    context.read(calendarProvider).refresh();
+    context.read(statisticsProvider).refresh();
+    context.read(graphicsProvider).refresh();
   }
 }

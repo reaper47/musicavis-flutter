@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
-List<Widget> cancelSaveButtons(BuildContext context, Function onSave) {
+List<Widget> cancelSaveButtons(BuildContext context, Function onSave,
+    [Function onCancel]) {
   return [
     RaisedButton(
       child: Text('Cancel'),
       color: Colors.redAccent,
-      onPressed: () => Navigator.of(context).pop(),
+      onPressed: () {
+        if (onCancel != null) {
+          onCancel();
+        }
+        Navigator.of(context).pop();
+      },
     ),
     RaisedButton(
       child: Text('Save'),

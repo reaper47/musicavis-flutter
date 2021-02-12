@@ -332,7 +332,7 @@ packages:
     source: hosted
     version: "2.1.19"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       url: "https://pub.dartlang.org"
@@ -736,5 +736,5 @@ packages:
     source: hosted
     version: "2.2.1"
 sdks:
-  dart: ">=2.10.0 <2.11.0"
+  dart: ">=2.10.5 <2.11.0"
   flutter: ">=1.22.0 <2.0.0"

@@ -28,3 +28,11 @@ extension PopOptionsExtension on PopOption {
 
   String get name => names[this];
 }
+
+extension GraphEXtension on GraphType {
+  static const names = {
+    GraphType.practiceTime: 'Practice over Time',
+  };
+
+  String get name => names[this];
+}

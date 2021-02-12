@@ -1,56 +1,113 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:graphic/graphic.dart' as graphic;
 
-import 'data.dart';
-
 class PracticeTimeChart extends StatelessWidget {
+  final List<Map<String, dynamic>> data;
+  final ThemeData themeData;
+
+  const PracticeTimeChart(this.data, this.themeData, {Key key})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final header1Color = themeData.textTheme.headline1.color;
+    final bodyText1Color = themeData.textTheme.bodyText1.color;
+    final x = data[0].keys.first;
+    final y = data[0].keys.last;
+
+    final xTickCount = data.length > 31 ? data.length ~/ 2 : data.length;
+
     return SingleChildScrollView(
       child: Center(
         child: Column(
+          key: UniqueKey(),
           children: <Widget>[
             Padding(
-              child:
-                  Text('xPaning and xScaling', style: TextStyle(fontSize: 20)),
-              padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+              padding: const EdgeInsets.only(top: 40),
             ),
             Container(
-              width: 350,
-              height: 300,
+              width: MediaQuery.of(context).size.width * 0.95,
+              height: MediaQuery.of(context).size.height * 0.4,
               child: graphic.Chart(
-                data: lineData,
+                data: data,
+                padding: const EdgeInsets.only(
+                    bottom: 33, left: 35, top: 5, right: 10),
                 scales: {
-                  'Date': graphic.CatScale(
-                    accessor: (map) => map['Date'] as String,
-                    range: [0, 2],
-                    tickCount: 5,
+                  x: graphic.CatScale(
+                    accessor: (map) => map[x] as String,
+                    range: [0, 2.5],
+                    tickCount: xTickCount,
                   ),
-                  'Close': graphic.LinearScale(
-                    accessor: (map) => map['Close'] as num,
+                  y: graphic.LinearScale(
+                    accessor: (map) => map[y] as num,
                     nice: true,
-                    min: 100,
+                    min: 0,
+                    max: data.map((e) => e[y] as int).reduce(max),
+                    formatter: (num) => '${num.toInt()}m',
                   )
                 },
                 geoms: [
                   graphic.AreaGeom(
-                    position: graphic.PositionAttr(field: 'Date*Close'),
+                    position: graphic.PositionAttr(field: '$x*$y'),
                     shape: graphic.ShapeAttr(
-                        values: [graphic.BasicAreaShape(smooth: true)]),
+                      values: [graphic.BasicAreaShape(smooth: true)],
+                    ),
                     color: graphic.ColorAttr(values: [
-                      graphic.Defaults.theme.colors.first.withAlpha(80),
+                      themeData.accentColor.withOpacity(0.33),
                     ]),
                   ),
                   graphic.LineGeom(
-                    position: graphic.PositionAttr(field: 'Date*Close'),
+                    position: graphic.PositionAttr(field: '$x*$y'),
                     shape: graphic.ShapeAttr(
-                        values: [graphic.BasicLineShape(smooth: true)]),
-                    size: graphic.SizeAttr(values: [0.5]),
+                      values: [graphic.BasicLineShape(smooth: true)],
+                    ),
+                    color: graphic.ColorAttr(
+                      values: [themeData.textTheme.headline1.color],
+                    ),
+                    size: graphic.SizeAttr(values: [1.2]),
                   ),
                 ],
                 axes: {
-                  'Date': graphic.Defaults.horizontalAxis,
-                  'Close': graphic.Defaults.verticalAxis,
+                  x: graphic.Axis(
+                    position: 0,
+                    line: graphic.AxisLine(
+                      style: graphic.LineStyle(
+                        color: header1Color,
+                      ),
+                    ),
+                    label: graphic.AxisLabel(
+                      offset: Offset(0, 10),
+                      rotation: -45,
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: bodyText1Color.withOpacity(0.9),
+                      ),
+                    ),
+                    grid: graphic.AxisGrid(
+                      style: graphic.LineStyle(
+                        color: bodyText1Color.withOpacity(0.05),
+                        strokeWidth: 0.8,
+                      ),
+                    ),
+                  ),
+                  y: graphic.Axis(
+                    position: 0,
+                    label: graphic.AxisLabel(
+                      offset: Offset(-10, 0),
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: bodyText1Color.withOpacity(0.9),
+                      ),
+                    ),
+                    grid: graphic.AxisGrid(
+                      style: graphic.LineStyle(
+                        color: bodyText1Color.withOpacity(0.1),
+                        strokeWidth: 0.8,
+                      ),
+                    ),
+                  ),
                 },
                 interactions: [
                   graphic.Defaults.xPaning,
@@ -61,6 +118,21 @@ class PracticeTimeChart extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class GraphTitle extends StatelessWidget {
+  final String title;
+  final Color textColor;
+
+  const GraphTitle(this.title, this.textColor, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12.0),
+      child: Text(title, style: TextStyle(color: textColor)),
     );
   }
 }

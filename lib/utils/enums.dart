@@ -8,3 +8,7 @@ enum PopOption {
   save,
   delete,
 }
+
+enum GraphType {
+  practiceTime,
+}

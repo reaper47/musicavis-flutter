@@ -8,6 +8,8 @@ const double defaultFontSize = 16;
 const double biggerFontSize = defaultFontSize + 2;
 const double smallFontSize = defaultFontSize - 2;
 
+const bigTextStyle = const TextStyle(fontSize: biggerFontSize);
+
 final greyTextStyle = (double fontSize) => TextStyle(
       fontSize: fontSize,
       color: Colors.grey,
