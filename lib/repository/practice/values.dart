@@ -12,4 +12,7 @@ class Values {
   }
 
   set currentValue(int value) => current = value;
+
+  @override
+  String toString() => 'Values { [$min,$current,$max] }';
 }

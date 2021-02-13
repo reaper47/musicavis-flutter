@@ -28,13 +28,9 @@ class PracticeProvider extends StateNotifier<Practice> {
       );
 
   String get title => state.title;
-
   List<String> get goals => state.goals;
-
   List<String> get positives => state.positives;
-
   List<String> get improvements => state.improvements;
-
   String get notes => state.notes;
 
   // Crud operations on practice

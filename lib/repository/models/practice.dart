@@ -1,6 +1,5 @@
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
-
 import 'package:musicavis/repository/boxes.dart';
 import 'package:musicavis/repository/models/exercise.dart';
 import 'package:musicavis/repository/practice/index.dart';
@@ -76,6 +75,7 @@ class Practice extends HiveObject {
   savePractice(DataHolder dataHolder) {
     final filter = FilterPractice.filter(this);
     Hive.box<Practice>(PRACTICES_BOX).put(id, filter.practice);
+    filter.practice.exercises.forEach((x) => x.save());
     filter.restore();
   }
 
