@@ -15,6 +15,7 @@ class ExerciseTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final practice = context.read(provider);
+    final exercises = practice.dataHolder.exercises;
     final items = practice.dataHolder.exercises;
 
     return Scaffold(
@@ -24,7 +25,17 @@ class ExerciseTab extends StatelessWidget {
           actionPane: SlidableDrawerActionPane(),
           actionExtentRatio: 0.25,
           child: Container(
-            child: ExerciseItem(index, practice),
+            child: ExerciseItem(ExerciseItemComponents(
+              index,
+              exerciseDao: exercises.exercises[index],
+              bpmStartRange: exercises.bpmStartRanges[index],
+              bpmEndRange: exercises.bpmEndRanges[index],
+              minuteRange: exercises.minuteRanges[index],
+              isEnabled: exercises.isEnabled[index],
+              toggle: exercises.toggleEnabled,
+              crud: practice.crud,
+              nodes: practice.nodes,
+            )),
           ),
           secondaryActions: items.length == 1
               ? []
