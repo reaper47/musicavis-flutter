@@ -67,7 +67,8 @@ class Statistics extends StatelessWidget {
         for (var stat in statistics)
           ListTile(
             leading: Icon(Icons.arrow_right_outlined),
-            title: Text(stat[0]),
+            title: Text(stat.first),
+            subtitle: stat.length > 2 ? Text(stat.last) : null,
             trailing: Text(stat[1]),
             visualDensity: VisualDensity(horizontal: 0, vertical: -4),
           )

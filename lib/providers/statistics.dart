@@ -28,7 +28,10 @@ class StatisticsProvider extends StateNotifier<ProfileData> {
     state = state;
   }
 
-  void refresh() => state = state;
+  void refresh() {
+    state.updateStatistics();
+    state = state;
+  }
 }
 
 class ProfileData {
@@ -72,10 +75,26 @@ class ProfileData {
 
     switch (_selectedCategory) {
       case StatisticsModule.practice:
-        items.entries.forEach((item) =>
-            stats.add(['${item.key} practice time', '${item.value}m']));
+        final base = 'practice time';
+        stats.addAll(List.from([
+          ['Total $base', "${items['Total']}m"],
+          ['Average $base', "${items['Average'].toStringAsFixed(1)}m"],
+          ['Median $base', "${items['Median'].toStringAsFixed(1)}m"],
+          ['Longest $base', "${items['Longest']}m"],
+          ['Shortest $base', "${items['Shortest']}m"],
+        ]));
         return stats;
       case StatisticsModule.exercises:
+        const String n = 'number of exercises';
+        const String len = 'exercise length';
+        stats.addAll(List.from([
+          ['Number of exercises', "${items['Number of exercises']}"],
+          ['Average $n', "${items['Average $n'].round()}", '(per practice)'],
+          ['Median $n', "${items['Median $n'].round()}", '(per practice)'],
+          ['Average $len', "${items['Average $len'].toStringAsFixed(1)}m"],
+          ['Median $len', "${items['Median $len'].toStringAsFixed(1)}m"],
+        ]));
+        return stats;
       case StatisticsModule.instruments:
         items.entries
             .forEach((item) => stats.add(['${item.key}', '${item.value}']));
@@ -105,12 +124,15 @@ class ProfileData {
 
     module = StatisticsModule.exercises;
     final exercisesBox = Hive.box<Exercise>(EXERCISES_BOX);
-    final numExercises = exercisesBox.keys.length;
+    final exercisesPerPractice =
+        practices.map((e) => e.exercises.where((x) => x.name != ''));
     final numExercisesPerPractice =
-        practices.map((e) => e.exercises.length).toList()..sort();
-    final exerciseLengths = exercisesBox.values.map((e) => e.minutes).toList()
-      ..sort();
-    _stats[module]['Number of exercises'] = numExercises;
+        exercisesPerPractice.map((e) => e.length).toList()..sort();
+    final exerciseLengths =
+        exercisesPerPractice.expand((x) => x).map((e) => e.minutes).toList();
+
+    _stats[module]['Number of exercises'] =
+        exercisesBox.values.map((e) => e.name).toSet().length - 1;
     _stats[module]['Average number of exercises'] =
         numExercisesPerPractice.fold(0, (prev, el) => prev + el) /
             practices.length;

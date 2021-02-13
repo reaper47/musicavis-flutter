@@ -45,7 +45,9 @@ class Practice extends HiveObject {
     this.datetime,
   });
 
-  int get practiceTime => exercises.fold(0, (prev, el) => prev + el.minutes);
+  int get practiceTime => exercises
+      .sublist(0, exercises.length - 1)
+      .fold(0, (prev, el) => prev + el.minutes);
 
   Practice.create(String instrument) {
     id = Hive.box<Practice>(PRACTICES_BOX).length;
