@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
-
 import 'package:musicavis/repository/boxes.dart';
 import 'package:musicavis/repository/practice/values.dart';
 import 'package:musicavis/utils/constants.dart';

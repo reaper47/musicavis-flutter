@@ -10,29 +10,7 @@ final graphicsProvider = StateNotifierProvider((_) => GraphicsProvider());
 class GraphicsProvider extends StateNotifier<GraphicsData> {
   GraphicsProvider() : super(GraphicsData());
 
-  Dates get calendarDates => state.calendarDates;
-  Dates get selectedPracticeDates => state.selectedPracticeDates;
-  List<Map<String, dynamic>> get practiceGraphData => state.practiceGraphData;
-  bool get hasPractices => Hive.box<Practice>(PRACTICES_BOX).values.isNotEmpty;
-
-  set startPracticeTime(DateTime date) {
-    state.startPracticeTime = date;
-    state = state;
-  }
-
-  set endPracticeTime(DateTime date) {
-    state.endPracticeTime = date;
-    state = state;
-  }
-
   void refresh() => state = state;
-
-  void restoreSelectedPracticeDates() {
-    state.restoreSelectedPracticeDates();
-    state = state;
-  }
-
-  void updateSelectedPracticeDates() => state.updateSelectedPracticeDates();
 }
 
 class GraphicsData {
@@ -49,6 +27,7 @@ class GraphicsData {
   Dates get calendarDates => _calendarDates;
   Dates get selectedPracticeDates => _selectedPracticeDates;
   Dates get originalPracticeDates => _originalPracticeDates;
+  bool get hasPractices => Hive.box<Practice>(PRACTICES_BOX).values.isNotEmpty;
 
   set startPracticeTime(DateTime date) {
     if (date.isBefore(_selectedPracticeDates.last)) {

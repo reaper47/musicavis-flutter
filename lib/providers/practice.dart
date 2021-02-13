@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:musicavis/providers/settings.dart';
 import 'package:musicavis/repository/models/practice.dart';
 import 'package:musicavis/repository/practice/index.dart';

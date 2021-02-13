@@ -19,8 +19,7 @@ class GraphsContainer extends HookWidget {
     final theme = useProvider(themeStateNotifier.state);
     final themeData = getTheme(theme);
 
-    final provider = useProvider(graphicsProvider);
-    useProvider(graphicsProvider.state);
+    final provider = useProvider(graphicsProvider.state);
     bool hasPractices = provider.hasPractices;
 
     return Container(
@@ -62,7 +61,7 @@ class GraphsContainer extends HookWidget {
         : Container();
   }
 
-  Widget _graph(GraphicsProvider provider, ThemeData theme, bool hasPractices) {
+  Widget _graph(GraphicsData provider, ThemeData theme, bool hasPractices) {
     return hasPractices
         ? PracticeTimeChart(provider.practiceGraphData, theme)
         : Padding(
@@ -102,10 +101,11 @@ class _GraphOptionsDialogState extends State<GraphOptionsDialog> {
 
     final onSave = () {
       Navigator.of(context).pop();
-      context.read(graphicsProvider).updateSelectedPracticeDates();
+      context.read(graphicsProvider.state).updateSelectedPracticeDates();
+      context.read(graphicsProvider).refresh();
     };
     final onCancel = () {
-      context.read(graphicsProvider).restoreSelectedPracticeDates();
+      context.read(graphicsProvider.state).restoreSelectedPracticeDates();
     };
 
     return AlertDialog(
@@ -146,11 +146,9 @@ class PracticeGraphOptions extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = useProvider(graphicsProvider);
-    useProvider(graphicsProvider.state);
-
-    final calendarDates = provider.calendarDates;
-    final selectedPracticeDates = provider.selectedPracticeDates;
+    final state = useProvider(graphicsProvider.state);
+    final calendarDates = state.calendarDates;
+    final selectedPracticeDates = state.selectedPracticeDates;
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 24.0),
@@ -166,8 +164,9 @@ class PracticeGraphOptions extends HookWidget {
                   style: bigTextStyle,
                 ),
                 onPressed: () {
-                  _getDate(context, calendarDates).then((x) => provider
-                      .startPracticeTime = x ?? selectedPracticeDates.first);
+                  _getDate(context, calendarDates).then((x) {
+                    state.startPracticeTime = x ?? selectedPracticeDates.first;
+                  });
                 },
               ),
             ],
@@ -182,8 +181,9 @@ class PracticeGraphOptions extends HookWidget {
                   style: bigTextStyle,
                 ),
                 onPressed: () {
-                  _getDate(context, calendarDates).then((x) => provider
-                      .endPracticeTime = x ?? selectedPracticeDates.last);
+                  _getDate(context, calendarDates).then((x) {
+                    state.endPracticeTime = x ?? selectedPracticeDates.last;
+                  });
                 },
               ),
             ],
