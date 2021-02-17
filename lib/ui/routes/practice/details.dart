@@ -103,14 +103,25 @@ class PracticeDetailsRoute extends HookWidget {
   }
 
   void _save(BuildContext context, {bool popContext = false}) {
-    context.read(provider).save();
-    _refreshProviders(context);
+    bool isPracticeNotEmpty = context.read(provider).dataHolder.isNotEmpty;
+    if (isPracticeNotEmpty) {
+      context.read(provider).save();
+      _refreshProviders(context);
+    }
 
     if (!popContext) {
-      FlushbarHelper.createSuccess(
-        message: 'Practice has been saved.',
-        duration: Duration(milliseconds: 2225),
-      )..show(context);
+      if (isPracticeNotEmpty) {
+        FlushbarHelper.createSuccess(
+          message: 'Practice has been saved.',
+          duration: Duration(milliseconds: 2225),
+        )..show(context);
+      } else {
+        FlushbarHelper.createError(
+          message: 'Save failed. Practice is empty.',
+          duration: Duration(milliseconds: 2225),
+        )..show(context);
+      }
+
       FocusScope.of(context).requestFocus(FocusNode());
     } else {
       Navigator.of(context).pop();

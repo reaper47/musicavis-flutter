@@ -29,10 +29,34 @@ extension PopOptionsExtension on PopOption {
   String get name => names[this];
 }
 
-extension GraphEXtension on GraphType {
+extension GraphExtension on GraphType {
   static const names = {
     GraphType.practiceTime: 'Practice over Time',
   };
 
   String get name => names[this];
+}
+
+extension GoalTypeExtension on GoalType {
+  static const titles = {
+    GoalType.weekly: 'Weekly Goals',
+    GoalType.monthly: 'Monthly Goals',
+    GoalType.yearly: 'Yearly Goals',
+  };
+
+  static const names = {
+    GoalType.weekly: 'Week',
+    GoalType.monthly: 'Month',
+    GoalType.yearly: 'Year',
+  };
+
+  static const captions = {
+    GoalType.weekly: 'Add a weekly goal...',
+    GoalType.monthly: 'Add a monthly goal...',
+    GoalType.yearly: 'Add a yearly goal...',
+  };
+
+  String get title => titles[this];
+  String get name => names[this];
+  String get caption => captions[this];
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -47,14 +46,14 @@ class _MusicavisAppState extends State<MusicavisApp> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = useProvider(themeStateNotifier.state);
+    final theme = getTheme(useProvider(themeStateNotifier.state));
 
     return MaterialApp(
       title: APP_NAME,
-      theme: getTheme(theme),
+      theme: theme,
       home: const MetaRoute(),
       routes: {
-        ROUTE_HOME: (_) => HomeRoute(),
+        ROUTE_GOALS: (_) => GoalsRoute(),
         ROUTE_PRACTICE: (_) => PracticeRoute(),
         ROUTE_CALENDAR: (_) => CalendarRoute(),
         ROUTE_PROFILE: (_) => ProfileRoute(),

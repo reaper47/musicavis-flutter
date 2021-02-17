@@ -1,6 +1,6 @@
 const APP_NAME = 'Musicavis';
 
-const ROUTE_HOME = '/home';
+const ROUTE_GOALS = '/goals';
 const ROUTE_PRACTICE = '/practice';
 const ROUTE_CALENDAR = '/calendar';
 const ROUTE_PROFILE = '/profile';
@@ -8,7 +8,7 @@ const ROUTE_PROFILE_SETTINGS = '$ROUTE_PROFILE/settings';
 const ROUTE_PROFILE_SETTINGS_INSTRUMENTS =
     '$ROUTE_PROFILE_SETTINGS/instruments';
 
-const ROUTE_HOME_TITLE = 'Home';
+const ROUTE_GOALS_TITLE = 'Goals';
 const ROUTE_PRACTICE_TITLE = 'Practice';
 const ROUTE_CALENDAR_TITLE = 'Calendar';
 const ROUTE_PROFILE_TITLE = 'Profile';

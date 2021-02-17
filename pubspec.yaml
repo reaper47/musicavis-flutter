@@ -20,6 +20,7 @@ dependencies:
   hooks_riverpod: ^0.12.2
   intl: ^0.16.1
   launch_review: ^2.0.0
+  month_picker_dialog: ^0.3.3
   table_calendar: ^2.3.3
   url_launcher: ^5.7.10
 

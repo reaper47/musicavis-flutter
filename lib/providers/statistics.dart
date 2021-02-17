@@ -138,11 +138,13 @@ class ProfileData {
             practices.length;
     _stats[module]['Median number of exercises'] =
         numExercisesPerPractice[numExercisesPerPractice.length ~/ 2];
-    _stats[module]['Average exercise length'] =
-        exerciseLengths.fold(0, (prev, el) => prev + el) /
+    _stats[module]['Average exercise length'] = exerciseLengths.isEmpty
+        ? 0
+        : exerciseLengths.fold(0, (prev, el) => prev + el) /
             exerciseLengths.length;
-    _stats[module]['Median exercise length'] =
-        exerciseLengths[exerciseLengths.length ~/ 2];
+    _stats[module]['Median exercise length'] = exerciseLengths.isEmpty
+        ? 0
+        : exerciseLengths[exerciseLengths.length ~/ 2];
 
     module = StatisticsModule.instruments;
     final instruments = practices.map((e) => e.instrument).toList();

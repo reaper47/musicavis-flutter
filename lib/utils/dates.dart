@@ -53,3 +53,29 @@ bool isYearMonthDaySame(DateTime first, DateTime last) {
       first.month == last.month &&
       first.day == last.day;
 }
+
+int getWeekNumber(DateTime date) {
+  int dayOfYear = int.parse(DateFormat("D").format(date));
+  int woy = ((dayOfYear - date.weekday + 10) / 7).floor();
+  if (woy < 1) {
+    woy = numberWeeksInYear(date.year - 1);
+  } else if (woy > numberWeeksInYear(date.year)) {
+    woy = 1;
+  }
+  return woy;
+}
+
+int numberWeeksInYear(int year) {
+  DateTime dec28 = DateTime(year, 12, 28);
+  int dayOfDec28 = int.parse(DateFormat("D").format(dec28));
+  return ((dayOfDec28 - dec28.weekday + 10) / 7).floor();
+}
+
+String getWeekRange(DateTime date) {
+  final firstDayOfWeek = date.subtract(Duration(days: date.weekday - 1));
+  final days = List.generate(7, (index) => index)
+      .map((value) => DateFormat(DateFormat.ABBR_MONTH_DAY)
+          .format(firstDayOfWeek.add(Duration(days: value))))
+      .toList();
+  return '${days.first} - ${days.last}';
+}

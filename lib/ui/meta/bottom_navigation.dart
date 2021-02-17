@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-
 import 'package:musicavis/ui/routes/all.dart';
 import 'package:musicavis/utils/constants.dart';
 
 final Map<RouteType, AppRoute> routes = const {
-  RouteType.home: AppRoute(
-    RouteType.home,
-    ROUTE_HOME_TITLE,
-    Icons.home,
-    HomeRoute(),
+  RouteType.goals: AppRoute(
+    RouteType.goals,
+    ROUTE_GOALS_TITLE,
+    Icons.api,
+    GoalsRoute(),
   ),
   RouteType.practice: AppRoute(
     RouteType.practice,
@@ -31,7 +30,7 @@ final Map<RouteType, AppRoute> routes = const {
 };
 
 enum RouteType {
-  home,
+  goals,
   practice,
   calendar,
   profile,

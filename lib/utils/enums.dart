@@ -12,3 +12,9 @@ enum PopOption {
 enum GraphType {
   practiceTime,
 }
+
+enum GoalType {
+  weekly,
+  monthly,
+  yearly,
+}

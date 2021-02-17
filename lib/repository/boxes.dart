@@ -1,13 +1,15 @@
 import 'dart:convert';
 
 import 'package:hive/hive.dart';
-
+import 'package:musicavis/repository/models/music_goal.dart';
 import 'package:musicavis/utils/constants.dart';
 import 'package:musicavis/utils/files.dart';
 import 'package:musicavis/utils/themes.dart';
+
 import 'models/exercise.dart';
 import 'models/practice.dart';
 
+const MUSIC_GOALS_BOX = 'music_goals';
 const PRACTICES_BOX = 'practices';
 const GOALS_BOX = 'goals';
 const EXERCISES_BOX = 'exercises';
@@ -18,6 +20,7 @@ const SETTINGS_BOX = 'settings';
 const INSTRUMENTS_BOX = 'instruments';
 
 final boxes = [
+  MUSIC_GOALS_BOX,
   PRACTICES_BOX,
   GOALS_BOX,
   EXERCISES_BOX,
@@ -28,12 +31,14 @@ final boxes = [
   INSTRUMENTS_BOX,
 ];
 
-registerAdapters() {
+void registerAdapters() {
   Hive.registerAdapter(PracticeAdapter());
   Hive.registerAdapter(ExerciseAdapter());
+  Hive.registerAdapter(MusicGoalAdapter());
 }
 
 Future openBoxes() async {
+  await Hive.openBox(MUSIC_GOALS_BOX);
   await Hive.openBox<Practice>(PRACTICES_BOX);
   await Hive.openBox<String>(GOALS_BOX);
   await Hive.openBox<Exercise>(EXERCISES_BOX);
@@ -48,7 +53,7 @@ Future openBoxes() async {
   _initInstruments();
 }
 
-_initSettings() {
+void _initSettings() {
   final box = Hive.box(SETTINGS_BOX);
   if (box.isEmpty) {
     box.put(SETTINGS_THEME_KEY, BLACK_THEME_PREF);
@@ -60,7 +65,7 @@ _initSettings() {
   }
 }
 
-_initInstruments() async {
+void _initInstruments() async {
   final box = Hive.box<String>(INSTRUMENTS_BOX);
   if (box.isEmpty) {
     final asset = await loadAsset(FILE_INSTRUMENTS);

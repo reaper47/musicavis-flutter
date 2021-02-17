@@ -16,6 +16,12 @@ class DataHolder {
     exercises = Exercises.create(practice.exercises, isFromCalendar);
   }
 
+  bool get isNotEmpty =>
+      listData.values
+          .map((e) => e.where((x) => x != '').isNotEmpty)
+          .contains(true) ||
+      exercises.exercises.where((x) => x.name != '').isNotEmpty;
+
   bool isEligibleForNewItem(TabType type) {
     if (type == TabType.exercise) {
       return exercises.isElgigibleToAdd();
