@@ -108,7 +108,7 @@ class ProfileSettingsRoute extends HookWidget {
     showAboutDialog(
       context: context,
       applicationName: APP_NAME,
-      applicationIcon: FlutterLogo(),
+      applicationIcon: Icon(Icons.music_note),
       applicationLegalese: '©2020 www.musicavis.ca',
       applicationVersion: '1.0.0',
     );

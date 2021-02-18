@@ -13,7 +13,6 @@ const MUSIC_GOALS_BOX = 'music_goals';
 const PRACTICES_BOX = 'practices';
 const GOALS_BOX = 'goals';
 const EXERCISES_BOX = 'exercises';
-const EXERCISE_NAMES_BOX = 'exercise_names';
 const POSITIVES_BOX = 'positives';
 const IMPROVEMENTS_BOX = 'improvements';
 const SETTINGS_BOX = 'settings';
@@ -24,7 +23,6 @@ final boxes = [
   PRACTICES_BOX,
   GOALS_BOX,
   EXERCISES_BOX,
-  EXERCISE_NAMES_BOX,
   POSITIVES_BOX,
   IMPROVEMENTS_BOX,
   SETTINGS_BOX,
@@ -42,7 +40,6 @@ Future openBoxes() async {
   await Hive.openBox<Practice>(PRACTICES_BOX);
   await Hive.openBox<String>(GOALS_BOX);
   await Hive.openBox<Exercise>(EXERCISES_BOX);
-  await Hive.openBox<String>(EXERCISE_NAMES_BOX);
   await Hive.openBox<String>(POSITIVES_BOX);
   await Hive.openBox<String>(IMPROVEMENTS_BOX);
 
