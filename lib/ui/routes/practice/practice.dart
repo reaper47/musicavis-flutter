@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hooks_riverpod/all.dart';
-
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/providers/selectedInstrument.dart';
 import 'package:musicavis/providers/settings.dart';

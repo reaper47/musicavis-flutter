@@ -10,13 +10,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  another_flushbar: ^1.10.4
-  flutter_riverpod: ^0.12.2
+  another_flushbar: ^1.10.10
+  flutter_local_notifications: ^4.0.1
+  flutter_riverpod: ^0.12.4
   flutter_slidable: ^0.5.7
   graphic: ^0.3.0
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
-  hooks_riverpod: ^0.12.2
+  hooks_riverpod: ^0.12.4
   intl: ^0.16.1
   launch_review: ^2.0.0
   month_picker_dialog: ^0.3.3

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
-import 'package:table_calendar/table_calendar.dart';
-
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:musicavis/providers/calendar.dart';
 import 'package:musicavis/providers/practice.dart';
 import 'package:musicavis/repository/models/practice.dart';
 import 'package:musicavis/ui/routes/all.dart';
-import 'package:musicavis/providers/calendar.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class CalendarRoute extends StatefulHookWidget {
   const CalendarRoute({Key key}) : super(key: key);
